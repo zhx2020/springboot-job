@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://jscdn.com.cn/highcharts/images/favicon.ico">
+    <title>我的收藏</title>
+    <!-- 引入 bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 基本样式 -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/store.css">
+</head>
+<body>
+<div id="header">
+    <span>SpringBoot</span>
+</div>
+<div id="main">
+    <div id="left">
+        <ul>
+            <li><a href="home">后台主页</a></li>
+            <li>我的收藏</li>
+        </ul>
+    </div>
+    <div id="right">
+        <ul>
+            <li style="display: none"><span class="label label-success" style="font-size: 14px;">Java开发工程师</span><button class='btn btn-xs'>x</button></li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(function () {
+        function randomNum(minNum,maxNum){
+            switch(arguments.length){
+                case 1:
+                    return parseInt(Math.random()*minNum+1,10);
+                    break;
+                case 2:
+                    return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
+        var colors = ["label-success", "label-info", "label-primary", "label-danger", "label-warning"];
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/store/findAll",
+            dataType: "json",
+            success: function (res) {
+                var ul = $("#right>ul");
+                for (var i = 0; i < res.data.length; i++) {
+                    console.log(res.data[i].jobName);
+                    var a = $("<a target='_blank'></a>");
+                    a.attr("href", "detail/" + res.data[i].jobId);
+                    var span = $("<span class=\"label\" style=\"font-size: 14px;\"></span>");
+                    span.text(res.data[i].jobName);
+                    span.css("fontSize", randomNum(12, 16) + "px");
+                    span.addClass(colors[randomNum(0, 4)]);
+                    var li = $("<li></li>");
+                    var btn = $("<button class='btn btn-xs'>x</button>");
+                    btn.attr("jobId", res.data[i].jobId);
+                    a.append(span);
+                    li.append(a);
+                    li.append(btn);
+                    ul.append(li);
+                }
+            }
+        });
+        $("body").delegate("button", "click", function () {
+            var jobId = $(this).attr("jobId");
+            console.log(jobId);
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/store/del?id=" + jobId,
+                dataType: "json",
+                success: function (res) {
+                    window.location.reload();
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

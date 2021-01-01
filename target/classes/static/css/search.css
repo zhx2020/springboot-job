@@ -1,0 +1,163 @@
+/*纯CSS美化单选复选框*/
+.ul_box {
+    /*margin:0 auto;*/
+    padding:0;
+    list-style:none;
+    /*width:600px;*/
+}
+.ul_box>li {
+    padding:5px;
+    height: 34px;
+    overflow:hidden;
+    /*border-bottom:#e5e5e5 solid 1px;*/
+}
+.ul_box>li:last-child {
+    border-bottom:none;
+}
+.ul_box>li>div {
+    float:left;
+}
+.ul_box>li>div:nth-child(1) {
+    font-weight: 500;
+    color: #333;
+    font-size: 13px;
+    line-height: 22px;
+    width:5%;
+}
+.ul_box>li>div:nth-child(2) {
+    width:95%;
+    overflow:hidden;
+}
+.label_box>label {
+    display:block;
+    float:left;
+    margin:0 10px 10px 0;
+    position:relative;
+    overflow:hidden;
+}
+.label_box>label>input {
+    position:absolute;
+    top:0;
+    left:-20px;
+}
+.label_box>label>div {
+    /*width:90px;*/
+    min-width: 50px;
+    text-align:center;
+    font-size: 13px;
+    border:#dddddd solid 1px;
+    height:22px;
+    line-height:22px;
+    color:#333;
+    user-select:none;
+    overflow:hidden;
+    position:relative;
+    font-weight: 500;
+}
+.label_box>label>input:checked + div {
+    border:#d51917 solid 1px;
+    color:#d51917;
+}
+.label_box>label>input:checked + div:after {
+    content:'';
+    display:block;
+    width:20px;
+    height:20px;
+    background-color:#d51917;
+    transform:skewY(-45deg);
+    position:absolute;
+    bottom:-10px;
+    right:0;
+    z-index:1;
+}
+.label_box>label>input:checked + div:before {
+    content:'';
+    display:block;
+    width:3px;
+    height:8px;
+    border-right:#ffffff solid 2px;
+    border-bottom:#ffffff solid 2px;
+    transform:rotate(35deg);
+    position:absolute;
+    bottom:2px;
+    right:4px;
+    z-index:2;
+}
+/*搜索框*/
+.search {
+    width: 100%;
+    margin: 20px 0 20px 0;
+    display: flex;
+    /*border: 1px solid red;*/
+}
+.search>input {
+    width: 95%;
+    float: left;
+    height: 36px;
+    outline: none;
+    border: 1px solid red;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+.search>button {
+    width: 5%;
+    float: right;
+    height: 36px;
+    background-color: red;
+    color: white;
+    border-style: none;
+    outline: none;
+}
+.search>button>i {
+    font-style: normal;
+}
+/*下拉框*/
+#myselect{
+    background:#fff;
+    height:22px;
+    width:62px;
+    line-height:28px;
+    border:1px solid #d51917;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    outline: none;
+    font-size: 13px;
+}
+#myselect>option {
+    color: #333;
+    font-size: 13px;
+}
+/*输入框美化*/
+input.salary{
+    font-size: 13px;
+    width: 50px;
+    height: 22px;
+    border: 1px solid #d51917;
+    padding: 7px 0px;
+    border-radius: 3px;
+    padding-left:5px;
+    text-align: center;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+}
+input.salary:focus{
+    border-color: #d51917;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
+.job>table>thead>tr>th {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+}
+.job>table>tbody>tr>td {
+    font-size: 14px;
+}
+.job>table>tbody>tr>td>a {
+    color: #333;
+}

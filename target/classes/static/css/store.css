@@ -1,0 +1,18 @@
+#right>ul {
+    list-style: none;
+}
+#right>ul>li {
+    float: left;
+    margin: 12px;
+}
+#right>ul>li>a {
+    text-decoration: none;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none;
+}

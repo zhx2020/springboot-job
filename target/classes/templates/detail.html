@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://jscdn.com.cn/highcharts/images/favicon.ico">
+    <title>职位信息</title>
+    <!-- 引入 bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/detail.css">
+</head>
+<body>
+<div id="header">
+    <span>SpringBoot</span>
+</div>
+<div id="main">
+    <div id="left">
+        <ul>
+            <li><a href="../home">后台主页</a></li>
+            <li>职位信息</li>
+        </ul>
+    </div>
+    <div id="right">
+        <p>
+            <span class="label label-primary" id="jobName" style="font-size: 20px;"></span>
+            <span style="display: none" class="label label-primary" id="jobId"></span>
+            <a href="" class="btn btn-link" id="jobHref" target="_blank">去投递</a>
+        </p>
+        <p><span class="label label-danger" id="companyName" style="font-size: 14px;"></span></p>
+        <p>
+            <span id="jobAttr" class="label label-success"></span>
+            <span class="label label-danger"><span id="min"></span> - <span id="max"></span></span>
+        </p>
+        <h5 class="mytitle">职位信息</h5>
+        <p><span id="jobWelf" class="label label-warning"></span></p>
+        <p id="jobMsg"></p>
+        <h5 class="mytitle">公司信息</h5>
+        <p><span id="companyAttr" class="label label-info"></span></p>
+        <p id="companyMsg"></p>
+        <h5 class="mytitle">联系方式</h5>
+        <p id="companyArea"></p>
+        <p>
+            <button class="btn btn-success btn-xs" id="store">收藏职位</button>
+        </p>
+    </div>
+</div>
+<script>
+    $(function () {
+        var str = window.location.href;
+        var jobId = str.substring(str.lastIndexOf("/") + 1);
+        console.log(jobId);
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/jobitem/findById?id=" + jobId,
+            dataType: "json",
+            success: function (res) {
+                console.log(res);
+                $("#jobId").text(res.data.jobId);
+                $("#jobName").text(res.data.jobName);
+                $("#jobAttr").text(res.data.jobAttr);
+                $("#jobWelf").text(res.data.jobWelf);
+                $("#jobMsg").text(res.data.jobMsg);
+                $("#companyName").text(res.data.companyName);
+                $("#companyAttr").text(res.data.companyAttr);
+                $("#companyMsg").text(res.data.companyMsg);
+                $("#companyArea").text(res.data.companyArea);
+                $("#min").text(res.data.salaryMin);
+                $("#max").text(res.data.salaryMax);
+                $("#jobHref").attr("href", res.data.jobHref);
+            }
+        });
+        var storeBtn = $("#store");
+        storeBtn.click(function () {
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/store/add",
+                dataType: "json",
+                data: JSON.stringify({
+                    "jobId": $("#jobId").text(),
+                    "jobName": $("#jobName").text(),
+                    "createTime": new Date()
+                }),
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    alert(res.data);
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试</title>
+    <meta charset="utf-8"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn:focus,
+        .btn:active:focus,
+        .btn.active:focus,
+        .btn.focus,
+        .btn:active.focus,
+        .btn.active.focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<button class="btn btn-success btn-xs" onclick="sendMessage()">收藏职位</button>
+<button>点击</button>
+<script>
+    let socket = new WebSocket("ws://localhost:8080/websocket");
+    socket.onerror = err => {
+        console.log(err);
+    };
+    socket.onopen = event => {
+        console.log(event);
+    };
+    socket.onmessage = mess => {
+        console.log(mess);
+    };
+    socket.onclose = () => {
+        console.log("连接关闭");
+    };
+
+    function sendMessage() {
+        if (socket.readyState === 1) socket.send("这是一个测试数据");
+        else alert("尚未建立websocket连接");
+    }
+</script>
+</body>
+</html>
