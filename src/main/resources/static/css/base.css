@@ -1,66 +1,88 @@
+/*平台样式*/
 * {
     margin: 0;
     padding: 0;
 }
 #header {
     width: 100%;
-    height: 30px;
-    background-color: #00a65a;
-    position: fixed;
-    top: 0;
+    height: 35px;
+    background: #f5f5f5;
 }
-#header>span {
-    display: inline-block;
-    width: 6%;
+#header>.content {
+    width: 1000px;
     height: 100%;
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    line-height: 30px;
-    background-color: #008d4c;
+    /*background: #C9C9C9;*/
+    margin: 0 auto;
+}
+#header>.content>.left {
+    color: #6c6c6c;
+    font-size: 12px;
+    line-height: 35px;
+    float: left;
+}
+#header>.content>.right {
+    font-size: 12px;
+    line-height: 35px;
+    float: right;
+}
+#header>.content>.right>ul {
+    list-style: none;
+}
+#header>.content>.right>ul>li {
+    float: left;
+    margin-left: 10px;
+}
+#header>.content>.right>ul>li>a {
+    text-decoration: none;
+    color: #6c6c6c;
 }
 #main {
     width: 100%;
-    height: 700px;
-    position: fixed;
-    top: 30px;
+    min-height: 660px;
+    background: #fff;
 }
-#left {
-    width: 6%;
+#main>.content {
+    width: 1000px;
     height: 100%;
-    background-color: #222d32;
-    padding: 10px;
-    float: left;
-    position: fixed;
-    top: 30px;
-    left: 0;
+    margin: 0 auto;
+    /*background: #6f6f6f;*/
 }
-#left>ul {
-    list-style: none;
-}
-#left>ul>li {
-    color: #b8c7ce;
-    text-align: center;
-    height: 34px;
+#footer {
     width: 100%;
-    line-height: 34px;
-    font-size: 14px;
-    cursor: pointer;
+    height: 35px;
+    background: #f5f5f5;
 }
-#left>ul>li>a {
-    color: #b8c7ce;
-}
-#right {
-    width: 94%;
+#footer>.content {
+    width: 1000px;
     height: 100%;
-    float: right;
-    padding: 20px;
-    overflow: auto;
-    position: fixed;
-    top: 30px;
-    right: 0;
-    box-sizing: border-box;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 12px;
+    color: #6c6c6c;
+    line-height: 35px;
 }
-.end {
-    margin-bottom: 30px;
+/*自定义样式*/
+.cur {
+    color: orange !important;
+}
+.f40 {
+    color: #f40 !important;
+}
+.pt30 {
+    padding-top: 30px;
+}
+.pb30 {
+    padding-bottom: 30px;
+}
+.pt80 {
+    padding-top: 80px;
+}
+.mr10 {
+    margin-right: 10px;
+}
+.fz13 {
+    font-size: 13px;
+}
+.mb {
+    border: 1px solid #d6e9c6;
 }

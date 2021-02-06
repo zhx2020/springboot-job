@@ -3,8 +3,10 @@ package com.zwl.job.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.job.dao.JobItemRepository;
+import com.zwl.job.dao.UserDao;
 import com.zwl.job.entity.JobItem;
 import com.zwl.job.entity.Result;
+import com.zwl.job.entity.User;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -41,6 +43,9 @@ public class JobItemService {
 
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
+
+    @Autowired
+    private UserDao userDao;
 
     public Page<JobItem> find(String keyWord, int page) {
         return jobItemRepository.findJobItemByJobNameOrJobAreaOrJobMsgOrCompanyNameOrCompanyAreaOrCompanyMsg(
@@ -231,29 +236,65 @@ public class JobItemService {
         return new Result(true,"OK", sb.toString());
     }
 
-    public Result search(String keyWord, String jobArea, Integer salaryMin, Integer salaryMax, String jobYear, String jobEducation,
-                                String companyType, String companySize, Integer page, Integer size) {
+    public Page<JobItem> find(String keyWord, String jobArea, Integer salaryMin, Integer salaryMax, String jobYear, String jobEducation,
+                         String companyType, String companySize, Integer page, Integer size) {
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
         BoolQueryBuilder builder = QueryBuilders.boolQuery();
 //        builder.should(QueryBuilders.matchQuery("jobName", keyWord));
 //        builder.should(QueryBuilders.matchQuery("companyName", keyWord));
-        if (!"".equals(keyWord)) {
+        if (!"".equals(keyWord) && !"请选择".equals(keyWord)) {
             builder.must(QueryBuilders.multiMatchQuery(keyWord, "jobName", "companyName"));
 //            builder.must(QueryBuilders.termsQuery("jobName", "java", "开发"));
         }
         if (!"请选择".equals(jobArea)) {
             builder.must(QueryBuilders.termQuery("jobArea", jobArea));
         }
-        if (!"所有".equals(jobEducation)) {
+        if (!"所有".equals(jobEducation) && !"请选择".equals(jobEducation)) {
             builder.must(QueryBuilders.termQuery("jobEducation", jobEducation));
         }
-        if (!"所有".equals(jobYear)) {
+        if (!"所有".equals(jobYear) && !"请选择".equals(jobYear)) {
             builder.must(QueryBuilders.termQuery("jobYear", jobYear));
         }
-        if (!"所有".equals(companyType)) {
+        if (!"所有".equals(companyType) && !"请选择".equals(companyType)) {
             builder.must(QueryBuilders.termQuery("companyType", companyType));
         }
-        if (!"所有".equals(companySize)) {
+        if (!"所有".equals(companySize) && !"请选择".equals(companySize)) {
+            builder.must(QueryBuilders.termQuery("companySize", companySize));
+        }
+        builder.must(QueryBuilders.rangeQuery("salaryMin").from(salaryMin).to(salaryMax));
+        builder.must(QueryBuilders.rangeQuery("salaryMax").from(salaryMin).to(salaryMax));
+        FieldSortBuilder sort = SortBuilders.fieldSort("issueDate").order(SortOrder.DESC);
+        queryBuilder.withQuery(builder);
+        queryBuilder.withSort(sort);
+//        int page = 0, size = 10;
+        queryBuilder.withPageable(PageRequest.of(page - 1, size));
+        Page<JobItem> items = jobItemRepository.search(queryBuilder.build());
+        return items;
+    }
+
+    public Result search(String keyWord, String jobArea, Integer salaryMin, Integer salaryMax, String jobYear, String jobEducation,
+                                String companyType, String companySize, Integer page, Integer size) {
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        BoolQueryBuilder builder = QueryBuilders.boolQuery();
+//        builder.should(QueryBuilders.matchQuery("jobName", keyWord));
+//        builder.should(QueryBuilders.matchQuery("companyName", keyWord));
+        if (!"".equals(keyWord) && !"请选择".equals(keyWord)) {
+            builder.must(QueryBuilders.multiMatchQuery(keyWord, "jobName", "companyName"));
+//            builder.must(QueryBuilders.termsQuery("jobName", "java", "开发"));
+        }
+        if (!"请选择".equals(jobArea)) {
+            builder.must(QueryBuilders.termQuery("jobArea", jobArea));
+        }
+        if (!"所有".equals(jobEducation) && !"请选择".equals(jobEducation)) {
+            builder.must(QueryBuilders.termQuery("jobEducation", jobEducation));
+        }
+        if (!"所有".equals(jobYear) && !"请选择".equals(jobYear)) {
+            builder.must(QueryBuilders.termQuery("jobYear", jobYear));
+        }
+        if (!"所有".equals(companyType) && !"请选择".equals(companyType)) {
+            builder.must(QueryBuilders.termQuery("companyType", companyType));
+        }
+        if (!"所有".equals(companySize) && !"请选择".equals(companySize)) {
             builder.must(QueryBuilders.termQuery("companySize", companySize));
         }
         builder.must(QueryBuilders.rangeQuery("salaryMin").from(salaryMin).to(salaryMax));
@@ -361,5 +402,24 @@ public class JobItemService {
 
     public Result findById(String id) {
         return new Result(true, "OK", jobItemRepository.findById(id).get());
+    }
+
+    public Result push(String id) {
+        User user = userDao.findById(id);
+        String str = user.getSalary().getSalaryName();
+        int min = 1000;
+        int max = 30000;
+        if (!"请选择".equals(str)) {
+            str = str.replace("k", "");
+            String[] arr = str.split("-");
+            min = Integer.parseInt(arr[0]) * 1000;
+            max = Integer.parseInt(arr[1]) * 1000;
+        }
+        Page<JobItem> page = find(user.getPosition().getPositionName(), user.getArea().getAreaName(), min, max,
+                user.getYear().getYearName(), user.getEducation().getEducationName(), "所有", "所有", 1, 3);
+        int target = new Random().nextInt(page.getTotalPages()) + 1;
+        System.out.println("target = " + target);
+        return search(user.getPosition().getPositionName(), user.getArea().getAreaName(), min, max,
+                user.getYear().getYearName(), user.getEducation().getEducationName(), "所有", "所有", target, 3);
     }
 }

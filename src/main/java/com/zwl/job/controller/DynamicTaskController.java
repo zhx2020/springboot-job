@@ -1,9 +1,7 @@
 package com.zwl.job.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +41,7 @@ public class DynamicTaskController {
             future.cancel(true);
         }
         System.out.println("DynamicTaskController.stopCron()");
+        future = null;
         return "stopTask";
     }
 

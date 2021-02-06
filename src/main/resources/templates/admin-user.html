@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div id="header">
+    <span>SpringBoot</span>
+</div>
+<div id="main">
+    <div id="left">
+        <ul>
+            <li><a href="/admin/home">后台主页</a></li>
+            <li>用户管理</li>
+        </ul>
+    </div>
+    <div id="right">
+        <table class="table table-condensed" style="font-size: 13px;">
+            <thead>
+            <tr>
+                <th>手机号</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>行业方向</th>
+                <th>期望薪资</th>
+                <th>工作地点</th>
+                <th>工作年限</th>
+                <th>当前学历</th>
+                <th>注册时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="myTbody">
+            <tr class="hidden">
+                <td>111</td>
+                <td>张三</td>
+                <td>123456</td>
+                <td>java</td>
+                <td>6k-8k</td>
+                <td>北京</td>
+                <td>1年经验</td>
+                <td>本科</td>
+                <td>2021.01.01</td>
+                <td><buttton type="button" class="btn btn-danger btn-xs delUser">删除</buttton></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/user/findAll",
+            success: function (res) {
+                console.log(res);
+                var tbody = $("#myTbody");
+                for (var i = 0; i < res.length; i++) {
+                    var tr = $(`<tr>
+                                    <td>${res[i].userId}</td>
+                                    <td>${res[i].userName}</td>
+                                    <td>${res[i].userPass}</td>
+                                    <td>${res[i].position.positionName}</td>
+                                    <td>${res[i].salary.salaryName}</td>
+                                    <td>${res[i].area.areaName}</td>
+                                    <td>${res[i].year.yearName}</td>
+                                    <td>${res[i].education.educationName}</td>
+                                    <td>${res[i].createTime}</td>
+                                    <td><buttton val="${res[i].userId}" type="button" class="btn btn-danger btn-xs delUser">删除</buttton></td>
+                                </tr>`);
+                    tbody.append(tr);
+                }
+            }
+        });
+        $(document).on("click", ".delUser", function () {
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/user/del?id=" + $(this).attr("val"),
+                success: function (res) {
+                    alert(res.message);
+                    window.location.reload();
+                }
+            });
+        });
+    })
+</script>
+</body>
+</html>

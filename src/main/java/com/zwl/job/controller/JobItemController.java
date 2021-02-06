@@ -93,4 +93,9 @@ public class JobItemController {
                          String companyType, String companySize, Integer page, Integer size) {
         return jobItemService.search2(keyWord, jobArea, salaryMin, salaryMax, jobYear, jobEducation, companyType, companySize, page, size);
     }
+
+    @RequestMapping("/push")
+    public Result push(String id) {
+        return jobItemService.push(id);
+    }
 }

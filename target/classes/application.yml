@@ -32,10 +32,32 @@ spring:
     queue-name: myqueue
     topic-name: mytopic
     packages:
-      trust-all: true #不配置此项，会报错
+      trust-all: true # 不配置此项，会报错
     pool:
       enabled: true
-      max-connections: 10   #连接池最大连接数
-      idle-timeout: 30000   #空闲的连接过期时间，默认为30秒
+      max-connections: 10   # 连接池最大连接数
+      idle-timeout: 30000   # 空闲的连接过期时间，默认为30秒
     jms:
-      pub-sub-domain: true  #默认情况下activemq提供的是queue模式，若要使用topic模式需要配置下面配置
+      pub-sub-domain: true  # 默认情况下activemq提供的是queue模式，若要使用topic模式需要配置下面配置
+# mybatis配置
+mybatis:
+  type-aliases-package: com.zwl.job.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰
+logging:
+  level:
+    com:
+      zwl:
+        job:
+          dao: debug
+# UidGenerator
+uid:
+  epochStr: 2021-01-01 # 初始时间, 默认:"2019-02-20"
+  timeBits: 41 # 时间位, 默认:30
+  workerBits: 10 # 机器位, 默认:16
+  seqBits: 12 # 序列号, 默认:7
+  enableBackward: true # 是否容忍时钟回拨, 默认:true
+  CachedUidGenerator:
+    boostPower: 3 # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
+    paddingFactor: 50 # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50

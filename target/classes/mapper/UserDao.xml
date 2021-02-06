@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwl.job.dao.UserDao">
+
+    <select id="getAllUsers" resultType="user">
+        select * from tab_user;
+    </select>
+
+    <resultMap id="userResultMap" type="user">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_pass" property="userPass"></result>
+        <result column="position_id" property="positionId"></result>
+        <result column="salary_id" property="salaryId"></result>
+        <result column="area_id" property="areaId"></result>
+        <result column="year_id" property="yearId"></result>
+        <result column="education_id" property="educationId"></result>
+        <result column="create_time" property="createTime"></result>
+        <association property="position" javaType="Position">
+            <id column="position_id" property="positionId"></id>
+            <result column="position_name" property="positionName"></result>
+        </association>
+        <association property="salary" javaType="Salary">
+            <id column="salary_id" property="salaryId"></id>
+            <result column="salary_name" property="salaryName"></result>
+        </association>
+        <association property="area" javaType="Area">
+            <id column="area_id" property="areaId"></id>
+            <result column="area_name" property="areaName"></result>
+        </association>
+        <association property="year" javaType="Year">
+            <id column="year_id" property="yearId"></id>
+            <result column="year_name" property="yearName"></result>
+        </association>
+        <association property="education" javaType="Education">
+            <id column="education_id" property="educationId"></id>
+            <result column="education_name" property="educationName"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="friendResultMap" type="user">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_pass" property="userPass"></result>
+        <result column="position_id" property="positionId"></result>
+        <result column="salary_id" property="salaryId"></result>
+        <result column="area_id" property="areaId"></result>
+        <result column="year_id" property="yearId"></result>
+        <result column="education_id" property="educationId"></result>
+        <result column="create_time" property="createTime"></result>
+        <collection property="friendList" javaType="list" ofType="user">
+            <id column="user_id1" property="userId"></id>
+            <result column="user_name1" property="userName"></result>
+            <result column="user_pass1" property="userPass"></result>
+            <result column="position_id1" property="positionId"></result>
+            <result column="salary_id1" property="salaryId"></result>
+            <result column="area_id1" property="areaId"></result>
+            <result column="year_id1" property="yearId"></result>
+            <result column="education_id1" property="educationId"></result>
+            <result column="create_time1" property="createTime"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="userResultMap">
+        select * from tab_user u
+         left join tab_position p on u.position_id = p.position_id
+         left join tab_salary s on u.salary_id = s.salary_id
+         left join tab_area a on u.area_id = a.area_id
+         left join tab_year y on u.year_id = y.year_id
+         left join tab_education e on u.education_id = e.education_id
+         order by u.create_time desc;
+    </select>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="userResultMap">
+        select * from tab_user u
+         left join tab_position p on u.position_id = p.position_id
+         left join tab_salary s on u.salary_id = s.salary_id
+         left join tab_area a on u.area_id = a.area_id
+         left join tab_year y on u.year_id = y.year_id
+         left join tab_education e on u.education_id = e.education_id
+         where u.user_id = #{id};
+    </select>
+
+    <select id="findFriendById" parameterType="java.lang.String" resultMap="friendResultMap">
+        select u1.*,u2.user_id user_id1,u2.user_name user_name1,u2.user_pass user_pass1,u2.position_id position_id1,
+        u2.salary_id salary_id1,u2.area_id area_id1,u2.year_id year_id1,u2.education_id education_id1,
+        u2.create_time create_time1
+        from tab_user u1
+        inner join tab_friend f on u1.user_id = f.user_id
+        inner join tab_user u2 on u2.user_id = f.friend_id
+        where u1.user_id = #{id};
+    </select>
+
+</mapper>

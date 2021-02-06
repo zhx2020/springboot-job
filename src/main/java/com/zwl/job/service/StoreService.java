@@ -6,8 +6,6 @@ import com.zwl.job.entity.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class StoreService {
 
@@ -26,10 +24,17 @@ public class StoreService {
         return new Result(true, "OK", storeDao.selectAll());
     }
 
-    public Result del(String id) {
+    public Result findById(String id) {
         Store store = new Store();
-        store.setJobId(id);
+        store.setUserId(id);
+        return new Result(true, "OK", storeDao.select(store));
+    }
+
+    public Result del(String userId, String jobId) {
+        Store store = new Store();
+        store.setUserId(userId);
+        store.setJobId(jobId);
         storeDao.deleteByPrimaryKey(store);
-        return new Result(true, "OK", "取消收藏");
+        return new Result(true, "取消收藏");
     }
 }

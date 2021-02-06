@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwl.job.dao.PostDao">
+
+    <resultMap id="postResultMap" type="post">
+        <id column="post_id" property="postId"></id>
+        <result column="post_title" property="postTitle"></result>
+        <result column="post_content" property="postContent"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="create_time" property="createTime"></result>
+        <collection property="replyList" javaType="list" ofType="reply">
+            <id column="reply_id" property="replyId"></id>
+            <result column="post_id1" property="postId"></result>
+            <result column="reply_content" property="replyContent"></result>
+            <result column="user_id1" property="userId"></result>
+            <result column="user_name1" property="userName"></result>
+            <result column="create_time1" property="createTime"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="postResultMap">
+        select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from tab_post p
+        left join tab_reply r on p.post_id = r.post_id
+        order by p.create_time desc,r.create_time desc;
+    </select>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="postResultMap">
+        select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from tab_post p
+        left join tab_reply r on p.post_id = r.post_id where p.post_id = #{id};
+    </select>
+
+</mapper>

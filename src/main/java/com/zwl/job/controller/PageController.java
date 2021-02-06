@@ -7,24 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
+    @RequestMapping("/index")
+    public String index() {
+        return "index";
     }
 
-    @RequestMapping("/store")
-    public String store() {
-        return "store";
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
     }
 
-    @RequestMapping("/chart")
-    public String chart() {
-        return "chart";
-    }
-
-    @RequestMapping("/config")
-    public String config() {
-        return "config";
+    @RequestMapping("/register")
+    public String register() {
+        return "register";
     }
 
     @RequestMapping("/search")
@@ -37,8 +32,48 @@ public class PageController {
         return "detail";
     }
 
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
+    @RequestMapping("/store")
+    public String store() {
+        return "store";
+    }
+
+    @RequestMapping("/discuss")
+    public String discuss() {
+        return "discuss";
+    }
+
+    @RequestMapping("/post/{id}")
+    public String post(@PathVariable String id) {
+        return "post";
+    }
+
+    @RequestMapping("/chat")
+    public String chat() {
+        return "chat";
+    }
+
+    @RequestMapping("/center")
+    public String center() {
+        return "center";
+    }
+
+    @RequestMapping("/admin/home")
+    public String adminHome() {
+        return "admin-home";
+    }
+
+    @RequestMapping("/admin/user")
+    public String adminUser() {
+        return "admin-user";
+    }
+
+    @RequestMapping("/admin/post")
+    public String adminPost() {
+        return "admin-post";
+    }
+
+    @RequestMapping("/admin/config")
+    public String adminConfig() {
+        return "admin-config";
     }
 }

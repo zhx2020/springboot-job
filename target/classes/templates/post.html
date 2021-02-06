@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>帖子</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/js/init.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+<body>
+<div id="header">
+    <div class="content">
+        <div class="left">基于springboot的职位数据采集分析平台</div>
+        <div class="right">
+            <ul>
+                <li class="index"><a href="/index">首页</a></li>
+                <li><a href="/search">职位搜索</a></li>
+                <li><a href="/store">我的收藏</a></li>
+                <li><a href="/discuss">讨论区</a></li>
+                <li><a href="/chat">好友聊天</a></li>
+                <li><a href="/center">个人中心</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="main">
+    <div class="content pt30 row">
+        <div class="col-md-10" id="left">
+            <div class="panel panel-success text-muted hidden">
+                <div class="panel-body">
+                    <h5>_1328 <small>求职</small> <small class="pull-right">2020-01-02</small></h5>
+                    <p>
+                        Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。
+                        <span class="label label-success">评论 4</span>
+                        <button id="add" type="button" class="btn btn-warning btn-xs pull-right">
+                            加好友
+                        </button>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-info btn-xs pull-right mr10" data-toggle="modal" data-target="#myModal">
+                            回复
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <div class="page-header hidden">
+                <h5>张三 <small class="pull-right">2021.01.01</small></h5>
+                <p>Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。
+                    <button id="del" type="button" class="btn btn-danger btn-xs pull-right">
+                        删除
+                    </button>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-2" id="right">
+            <a href="detail.html" style="text-decoration: none" class="hidden">
+                <div class="panel panel-success">
+                    <div class="panel-body text-muted">
+                        <h5>Java开发工程师</h5>
+                        <h6>前锦网络信息技术（上海）有限公司</h6>
+                        <h6><span>北京</span> <span>6000-8000</span></h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="content">
+        Copyright © 2016-2020 Echo
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">回复帖子</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label h5">回复内容</label>
+                        <textarea id="replyContent" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                <button id="save" type="button" class="btn btn-primary btn-xs">保存更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var saveBtn = $("#save");
+        saveBtn.click(function () {
+            var postId = $("#postId").text();
+            var replyContent = $("#replyContent").val();
+            var userId = $("#userId").text();
+            var userName = $("#userName").text();
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/reply/add",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify({
+                    "postId": postId,
+                    "replyContent": replyContent,
+                    "userId": userId,
+                    "userName": userName,
+                    "createTime": new Date().format("yyyy-MM-dd hh:mm:ss")
+                }),
+                success: function (res) {
+                    alert(res.message);
+                    window.location.reload();
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(function () {
+        var str = window.location.href;
+        var postId = str.substring(str.lastIndexOf("/") + 1);
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/post/findById?id=" + postId,
+            success: function (res) {
+                var leftDiv = $("#left");
+                var postDiv = $(`<div class="panel panel-success text-muted">
+                                    <div class="panel-body">
+                                        <p class="hidden">
+                                            <span id="postId">${res.postId}</span>
+                                            <span id="postUserId">${res.userId}</span>
+                                            <span id="postUserName">${res.userName}</span>
+                                        </p>
+                                        <h5>${res.userName} <small>${res.postTitle}</small> <small class="pull-right">${res.createTime}</small></h5>
+                                        <p>
+                                            ${res.postContent}
+                                            <span class="label label-success">评论 ${res.replyList.length}</span>
+                                            <button id="add" type="button" class="btn btn-default btn-xs pull-right">
+                                                加好友
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs pull-right mr10" data-toggle="modal" data-target="#myModal">
+                                                回复
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>`);
+                leftDiv.append(postDiv);
+                for (var i = 0; i < res.replyList.length; i++) {
+                    var replyDiv = null;
+                    if ($.cookie("name") === res.replyList[i].userId) {
+                        replyDiv = $(`<div class="page-header text-muted">
+                                        <h5>${res.replyList[i].userName} ${res.replyList[i].userId} <small class="pull-right">${res.replyList[i].createTime}</small></h5>
+                                        <p>
+                                            ${res.replyList[i].replyContent}
+                                            <button val="${res.replyList[i].replyId}" type="button" class="btn btn-danger btn-xs pull-right del">
+                                                删除
+                                            </button>
+                                        </p>
+                                    </div>`);
+                    } else {
+                        replyDiv = $(`<div class="page-header text-muted">
+                                        <h5>${res.replyList[i].userName} ${res.replyList[i].userId} <small class="pull-right">${res.replyList[i].createTime}</small></h5>
+                                        <p>
+                                            ${res.replyList[i].replyContent}
+                                        </p>
+                                    </div>`);
+                    }
+                    leftDiv.append(replyDiv);
+                }
+            }
+        });
+        $(document).on("click", "#add", function () {
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/friend/add",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify({
+                    "userId": $("#userId").text(),
+                    "userName": $("#userName").text(),
+                    "friendId": $("#postUserId").text(),
+                    "friendName": $("#postUserName").text()
+                }),
+                success: function (res) {
+                    alert(res.message);
+                }
+            });
+        });
+        $(document).on("click", ".del", function () {
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/reply/del?id=" + $(this).attr("val"),
+                success: function (res) {
+                    alert(res.message);
+                    window.location.reload();
+                }
+            });
+        });
+    })
+</script>
+<script>
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/jobitem/push?id=" + $.cookie("name"),
+            success: function (res) {
+                console.log(res);
+                var rightDiv = $("#right");
+                for (var i = 0 ; i < res.data.content.length; i++) {
+                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" style="text-decoration: none">
+                                        <div class="panel panel-success">
+                                            <div class="panel-body text-muted">
+                                                <h5>${res.data.content[i].jobName}</h5>
+                                                <h6>${res.data.content[i].companyName}</h6>
+                                                <h6><span>${res.data.content[i].jobArea}</span> <span>${res.data.content[i].salaryMin}-${res.data.content[i].salaryMax}</span></h6>
+                                            </div>
+                                        </div>
+                                    </a>`);
+                    rightDiv.append(jobDiv);
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

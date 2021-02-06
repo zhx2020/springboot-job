@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>好友聊天</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/js/init.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+<body>
+<div id="header">
+    <div class="content">
+        <div class="left">基于springboot的职位数据采集分析平台</div>
+        <div class="right">
+            <ul>
+                <li class="index"><a href="/index">首页</a></li>
+                <li><a href="/search">职位搜索</a></li>
+                <li><a href="/store">我的收藏</a></li>
+                <li><a href="/discuss">讨论区</a></li>
+                <li><a href="/chat" class="cur">好友聊天</a></li>
+                <li><a href="/center">个人中心</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="main">
+    <div class="content pt30 row">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-stacked fz13" id="leftUl">
+                        <li class="active"><a href="#home" data-toggle="tab">张三</a></li>
+                        <li><a href="#profile" data-toggle="tab">李四</a></li>
+                        <li><a href="#messages" data-toggle="tab">王五</a></li>
+                        <li><a href="#settings" data-toggle="tab">赵六</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!-- Tab panes -->
+                    <div class="tab-content" id="rightDiv">
+                        <div class="tab-pane active" id="home">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <div class="page-header">
+                                        <h5 class="fz13" style="text-align: left">张三 <small>时间</small> <small>你好吗</small></h5>
+                                    </div>
+                                    <div class="page-header">
+                                        <h5 class="fz13" style="text-align: right">李四 <small>时间</small> <small>我很好</small></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <form class="form-inline">
+                                <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-default btn-xs">发送</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="profile">
+                            <div class="thumbnail">
+                                <div class="caption">
+
+                                </div>
+                            </div>
+                            <form class="form-inline">
+                                <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-default btn-xs">发送</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="messages">
+                            <div class="thumbnail">
+                                <div class="caption">
+
+                                </div>
+                            </div>
+                            <form class="form-inline">
+                                <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-default btn-xs">发送</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="settings">
+                            <div class="thumbnail">
+                                <div class="caption">
+
+                                </div>
+                            </div>
+                            <form class="form-inline">
+                                <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-default btn-xs">发送</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="content">
+        Copyright © 2016-2020 Echo
+    </div>
+</div>
+<script>
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/user/findFriendById?id=" + $.cookie("name"),
+            success: function (res) {
+                console.log(res);
+                var leftUl = $("#leftUl");
+                var rightDiv = $("#rightDiv");
+                leftUl.empty();
+                rightDiv.empty();
+                for (var i = 0; i < res.friendList.length; i++) {
+                    var li = null;
+                    if (i === 0) {
+                        li = $(`<li class="active">
+                                    <a href="#${res.friendList[i].userId}" data-toggle="tab">${res.friendList[i].userName} ${res.friendList[i].userId}</a>
+                                </li>`);
+                    } else {
+                        li = $(`<li>
+                                    <a href="#${res.friendList[i].userId}" data-toggle="tab">${res.friendList[i].userName} ${res.friendList[i].userId}</a>
+                                </li>`);
+                    }
+                    leftUl.append(li);
+                    var div = null;
+                    if (i === 0) {
+                        div = $(`<div class="tab-pane active" id="${res.friendList[i].userId}">
+                                    <div class="thumbnail">
+                                        <div class="caption">
+                                            
+                                        </div>
+                                    </div>
+                                    <form class="form-inline">
+                                        <div class="form-group form-group-sm">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <button toId="${res.friendList[i].userId}" toName="${res.friendList[i].userName}" type="button" class="btn btn-default btn-xs send">发送</button>
+                                    </form>
+                                </div>`);
+                    } else {
+                        div = $(`<div class="tab-pane" id="${res.friendList[i].userId}">
+                                    <div class="thumbnail">
+                                        <div class="caption">
+
+                                        </div>
+                                    </div>
+                                    <form class="form-inline">
+                                        <div class="form-group form-group-sm">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <button toId="${res.friendList[i].userId}" toName="${res.friendList[i].userName}" type="button" class="btn btn-default btn-xs send">发送</button>
+                                    </form>
+                                </div>`);
+                    }
+                    rightDiv.append(div);
+                }
+            }
+        })
+    })
+    $(document).on("click", ".send", function () {
+        var data = {
+            "fromId": $("#userId").text(),
+            "fromName": $("#userName").text(),
+            "toId": $(this).attr("toId"),
+            "toName": $(this).attr("toName"),
+            "content": $(this).parent().find("div>input").val()
+        };
+        console.log("message = " + JSON.stringify(data));
+        $(this).parent().find("div>input").val("");
+        var time = new Date().format("yyyy-MM-dd hh:mm:ss");
+        $.ajax({
+            type: "post",
+            url: "http://localhost:8080/my/send/" + data.toId,
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(data),
+            success: function (res) {
+                // console.log(res);
+                var curDiv = $(`#${data.toId}>div>div`);
+                var div = $(` <div class="page-header">
+                                  <h5 class="fz13" style="text-align: right">${data.fromName} [${data.fromId}] <small>${time}</small> ${data.content}</h5>
+                              </div>`);
+                curDiv.append(div);
+            }
+        })
+    });
+</script>
+<script>
+    $(function () {
+        var ws = new WebSocket("ws://127.0.0.1:8080/ws/" + $.cookie("name"));
+        ws.onopen = function() {
+            // WebSocket已连接上,使用send()方法发送数据
+            ws.send("发送数据");
+            // console.log("数据发送中...");
+        };
+
+        // 收到消息
+        ws.onmessage = function (evt) {
+            var received_msg = evt.data;
+            console.log(received_msg)
+            // console.log("数据已接收...");
+            if (received_msg !== "连接成功") {
+                var time = new Date().format("yyyy-MM-dd hh:mm:ss");
+                var data = JSON.parse(received_msg);
+                var curDiv = $(`#${data.fromId}>div>div`);
+                var div = $(` <div class="page-header">
+                                  <h5 class="fz13" style="text-align: left">${data.fromName} [${data.fromId}] <small>${time}</small> ${data.content}</h5>
+                              </div>`);
+                curDiv.append(div);
+                // console.log(curDiv);
+            }
+        };
+
+        // 关闭连接
+        ws.onclose = function() {
+            // 关闭 websocket
+            console.log("连接已关闭...");
+        };
+    })
+</script>
+</body>
+</html>

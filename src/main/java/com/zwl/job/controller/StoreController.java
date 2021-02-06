@@ -26,8 +26,13 @@ public class StoreController {
         return storeService.findAll();
     }
 
+    @RequestMapping("/findById")
+    public Result findById(String id) {
+        return storeService.findById(id);
+    }
+
     @RequestMapping("/del")
-    public Result del(String id) {
-        return storeService.del(id);
+    public Result del(String userId, String jobId) {
+        return storeService.del(userId, jobId);
     }
 }

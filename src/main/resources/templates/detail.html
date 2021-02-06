@@ -2,60 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="https://jscdn.com.cn/highcharts/images/favicon.ico">
-    <title>职位信息</title>
-    <!-- 引入 bootstrap -->
+    <title>职位详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 自定义样式 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/js/init.js"></script>
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/detail.css">
+    <style>
+        .myTitle {
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            border-left: 4px solid red;
+            padding-left: 6px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 <div id="header">
-    <span>SpringBoot</span>
+    <div class="content">
+        <div class="left">基于springboot的职位数据采集分析平台</div>
+        <div class="right">
+            <ul>
+                <li class="index"><a href="/index">首页</a></li>
+                <li><a href="/search">职位搜索</a></li>
+                <li><a href="/store">我的收藏</a></li>
+                <li><a href="/discuss">讨论区</a></li>
+                <li><a href="/chat">好友聊天</a></li>
+                <li><a href="/center">个人中心</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 <div id="main">
-    <div id="left">
-        <ul>
-            <li><a href="../home">后台主页</a></li>
-            <li>职位信息</li>
-        </ul>
+    <div class="content pt30 pb30 row">
+        <div class="col-md-10">
+            <p>
+                <span class="label label-primary" id="jobName" style="font-size: 16px;">Java高级开发工程师</span>
+                <span style="display: none" class="label label-primary" id="jobId">13283457</span>
+                <a href="" class="btn btn-link" id="jobHref" target="_blank">去投递</a>
+            </p>
+            <p>
+                <span class="label label-danger" id="companyName" style="font-size: 14px;">亚信科技PRD</span>
+                <span class="label label-danger"><span id="min">6000</span> - <span id="max">8000</span></span>
+            </p>
+            <p>
+                <span id="jobAttr" class="label label-success">北京-海淀区 5-7年经验 硕士 招1人 01-03发布</span>
+            </p>
+            <p>
+                <span id="jobWelf" class="label label-warning">年终奖金 弹性工作 绩效奖金 员工旅游 专业培训</span>
+            </p>
+            <h5 class="myTitle">职位信息</h5>
+            <p id="jobMsg" class="h5">
+                岗位职责：
+                1、负责智能安防一体机产品开发及技术攻关；
+                2、负责产品核心功能优化；
+                3、负责技术方案编写；
+                4、安排的其他重要工作。
+                岗位要求：
+                1、熟练掌握主流Java开发技术如：spring/springboot、mybatis/hibernate等；
+                2、熟悉js/jquery/vue等前端框架者优先；
+                3、熟练掌握mysql、oracle 等关系型数据库；
+                4. 对hadoop、spark、redis、kafka 有深度使用经验的优先；
+                5、有分布式系统分析、设计、开发、优化经验者优先。
+                职能类别：Java开发工程师
+            </p>
+            <h5 class="myTitle">公司信息</h5>
+            <p><span id="companyAttr" class="label label-info"></span></p>
+            <p id="companyMsg" class="h5">
+                亚信科技拥有员工11000余名，业务遍布全国30余省，通过对电信行业的积极探索与支撑，沉淀了深厚的技术实力，凭借对行业深刻的理解与项目管理能力形成了高性能、高专业化、高可靠的电信级软件产品及服务，持续满足客户日益复杂的业务需求，为客户创造新价值。
+                亚信科技作为中国电信软件产品及相关服务市场的领军型企业， 形成了由AISWare Big Data，AISWare Billing、AISWare CRM等系列产品，并积极拓展中国非电信行业企业级软件产品及相关服务市场，在智慧社区、智慧零售、车联网、公共服务、智能运维等领域均有创新实践，与客户共同探索智慧运营新模式。
+                亚信科技立足于服务运营商20余年的基础之上，持续加强自身的服务能力、产品能力、集成能力与运营能力，将对电信行业的深入理解与人工智能、机器学习、物联网、大数据等技术相结合，持续挖掘新客户、拓展新业务、开创新模式，成就电信运营商与行业客户的数字化转型，推动中国数字化浪潮的深入发展。
+            </p>
+            <h5 class="myTitle">联系方式</h5>
+            <p id="companyArea" class="h5">上班地址：西二旗中关村软件园二期亚信大厦</p>
+            <p>
+                <button class="btn btn-success btn-xs" id="store">收藏职位</button>
+            </p>
+        </div>
+        <div class="col-md-2" id="right">
+            <a href="detail.html" class="hidden">
+                <div class="panel panel-success">
+                    <div class="panel-body text-muted">
+                        <h5>Java开发工程师</h5>
+                        <h6>前锦网络信息技术（上海）有限公司</h6>
+                        <h6><span>北京</span> <span>6000-8000</span></h6>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
-    <div id="right">
-        <p>
-            <span class="label label-primary" id="jobName" style="font-size: 20px;"></span>
-            <span style="display: none" class="label label-primary" id="jobId"></span>
-            <a href="" class="btn btn-link" id="jobHref" target="_blank">去投递</a>
-        </p>
-        <p><span class="label label-danger" id="companyName" style="font-size: 14px;"></span></p>
-        <p>
-            <span id="jobAttr" class="label label-success"></span>
-            <span class="label label-danger"><span id="min"></span> - <span id="max"></span></span>
-        </p>
-        <h5 class="mytitle">职位信息</h5>
-        <p><span id="jobWelf" class="label label-warning"></span></p>
-        <p id="jobMsg"></p>
-        <h5 class="mytitle">公司信息</h5>
-        <p><span id="companyAttr" class="label label-info"></span></p>
-        <p id="companyMsg"></p>
-        <h5 class="mytitle">联系方式</h5>
-        <p id="companyArea"></p>
-        <p>
-            <button class="btn btn-success btn-xs" id="store">收藏职位</button>
-        </p>
+</div>
+<div id="footer">
+    <div class="content">
+        Copyright © 2016-2020 Echo
     </div>
 </div>
 <script>
     $(function () {
         var str = window.location.href;
         var jobId = str.substring(str.lastIndexOf("/") + 1);
-        console.log(jobId);
         $.ajax({
             type: "get",
             url: "http://localhost:8080/jobitem/findById?id=" + jobId,
-            dataType: "json",
             success: function (res) {
                 console.log(res);
                 $("#jobId").text(res.data.jobId);
@@ -79,15 +130,41 @@
                 url: "http://localhost:8080/store/add",
                 dataType: "json",
                 data: JSON.stringify({
+                    "userId": $("#userId").text(),
+                    "userName": $("#userName").text(),
                     "jobId": $("#jobId").text(),
                     "jobName": $("#jobName").text(),
-                    "createTime": new Date()
+                    "createTime": new Date().format("yyyy-MM-dd hh:mm:ss")
                 }),
                 contentType: "application/json;charset=UTF-8",
                 success: function (res) {
                     alert(res.data);
                 }
             })
+        })
+    })
+</script>
+<script>
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/jobitem/push?id=" + $.cookie("name"),
+            success: function (res) {
+                console.log(res);
+                var rightDiv = $("#right");
+                for (var i = 0 ; i < res.data.content.length; i++) {
+                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" style="text-decoration: none">
+                                        <div class="panel panel-success">
+                                            <div class="panel-body text-muted">
+                                                <h5>${res.data.content[i].jobName}</h5>
+                                                <h6>${res.data.content[i].companyName}</h6>
+                                                <h6><span>${res.data.content[i].jobArea}</span> <span>${res.data.content[i].salaryMin}-${res.data.content[i].salaryMax}</span></h6>
+                                            </div>
+                                        </div>
+                                    </a>`);
+                    rightDiv.append(jobDiv);
+                }
+            }
         })
     })
 </script>
