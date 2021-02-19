@@ -83,27 +83,27 @@
     $(function () {
         $.ajax({
             type: "get",
-            url: "http://localhost:8080/post/findAll",
+            url: "http://localhost:8080/post/findAll?page=1&size=100",
             success: function (res) {
                 console.log(res);
                 var myTbody = $("#myTbody");
-                for (var i = 0; i < res.length; i++) {
+                for (var i = 0; i < res.data.length; i++) {
                     var tbody = $("<tbody></tbody>");
-                    for (var j = 0; j < res[i].replyList.length; j++) {
+                    for (var j = 0; j < res.data[i].replyList.length; j++) {
                         var tr = $(`<tr>
-                                        <td>${res[i].replyList[j].replyId}</td>
-                                        <td>${res[i].replyList[j].replyContent}</td>
-                                        <td>${res[i].replyList[j].userId}</td>
-                                        <td>${res[i].replyList[j].userName}</td>
-                                        <td>${res[i].replyList[j].createTime}</td>
-                                        <td><button val="${res[i].replyList[j].replyId}" type="button" class="btn btn-default btn-xs delReply">删除</button></td>
+                                        <td>${res.data[i].replyList[j].replyId}</td>
+                                        <td>${res.data[i].replyList[j].replyContent}</td>
+                                        <td>${res.data[i].replyList[j].userId}</td>
+                                        <td>${res.data[i].replyList[j].userName}</td>
+                                        <td>${res.data[i].replyList[j].createTime}</td>
+                                        <td><button val="${res.data[i].replyList[j].replyId}" type="button" class="btn btn-default btn-xs delReply">删除</button></td>
                                     </tr>`);
                         tbody.append(tr);
                     }
                     var myTr = $(`<tr>
-                                <td>${res[i].postId}</td>
-                                <td>${res[i].postTitle}</td>
-                                <td>${res[i].postContent}</td>
+                                <td>${res.data[i].postId}</td>
+                                <td>${res.data[i].postTitle}</td>
+                                <td>${res.data[i].postContent}</td>
                                 <td>
                                     <table class="table table-condensed" style="font-size: 13px;">
                                         <thead>
@@ -119,10 +119,10 @@
                                         ${tbody.prop("outerHTML")}
                                     </table>
                                 </td>
-                                <td>${res[i].userId}</td>
-                                <td>${res[i].userName}</td>
-                                <td>${res[i].createTime}</td>
-                                <td><button val="${res[i].postId}" type="button" class="btn btn-danger btn-xs delPost">删除</button></td>
+                                <td>${res.data[i].userId}</td>
+                                <td>${res.data[i].userName}</td>
+                                <td>${res.data[i].createTime}</td>
+                                <td><button val="${res.data[i].postId}" type="button" class="btn btn-danger btn-xs delPost">删除</button></td>
                             </tr>`);
                     myTbody.append(myTr);
                 }

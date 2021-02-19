@@ -29,4 +29,10 @@ public class FriendService {
             return new Result(false, "添加失败");
         }
     }
+
+    public Result del(String userId, String friendId) {
+        friendDao.delFriend(userId, friendId);
+        friendDao.delFriend(friendId, userId);
+        return new Result(true, "删除成功");
+    }
 }

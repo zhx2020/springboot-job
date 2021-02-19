@@ -7,8 +7,70 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="/js/init.js"></script>
+    <script src="/js/SimplePagination.js"></script>
+    <script src="/js/init2.js"></script>
     <link rel="stylesheet" href="/css/base.css">
+    <style>
+        .pagination {
+            margin: 0;
+            font-size: 0;
+            text-align: center; }
+        .pagination .page-li {
+            display: inline-block;
+            font-size: 12px;
+            line-height: 1;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            user-select: none; }
+        .pagination .page-li:hover {
+            cursor: pointer;
+            background-color: #EAEAEA; }
+        .pagination .page-li.page-active {
+            cursor: default;
+            color: #fff;
+            border-color: #00a65a;
+            background-color: #00a65a; }
+        .pagination .page-li.number-ellipsis {
+            border: none;
+            cursor: default; }
+        .pagination .page-li.number-ellipsis:hover {
+            background-color: #fff; }
+        .pagination .page-number {
+            width: 30px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border: 1px solid #EAEAEA;
+            text-align: center; }
+        .pagination .page-prev {
+            padding: 8px 14px;
+            margin-right: 8px;
+            border: 1px solid #EAEAEA; }
+        .pagination .page-prev.no-prev {
+            color: #c6c6c6; }
+        .pagination .page-prev.no-prev:hover {
+            cursor: default;
+            background-color: #fff; }
+        .pagination .page-next {
+            padding: 8px 14px;
+            margin-left: 8px;
+            border: 1px solid #EAEAEA; }
+        .pagination .page-next.no-next {
+            color: #c6c6c6; }
+        .pagination .page-next.no-next:hover {
+            cursor: default;
+            background-color: #fff; }
+        .pagination .number-ellipsis {
+            display: inline-block;
+            font-size: 15px;
+            padding: 8px 14px; }
+        .pagination .number-ellipsis.page-hidden {
+            display: none; }
+        #page-go {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div id="header">
@@ -65,6 +127,9 @@
                 </div>
             </a>
         </div>
+        <div class="col-md-12">
+            <div class="box"></div>
+        </div>
     </div>
 </div>
 <div id="footer">
@@ -95,6 +160,29 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">修改回复</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <span class="hidden" id="replyId"></span>
+                        <label class="control-label h5">回复内容</label>
+                        <textarea id="replyContent2" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                <button id="save2" type="button" class="btn btn-primary btn-xs">保存更改</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(function () {
         var saveBtn = $("#save");
@@ -120,18 +208,39 @@
                 }
             })
         })
+        var modifyBtn = $("#save2");
+        modifyBtn.click(function () {
+            var replyId = $("#replyId").text();
+            var replyContent = $("#replyContent2").val();
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/reply/modify",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify({
+                    "replyId": replyId,
+                    "replyContent": replyContent
+                }),
+                success: function (res) {
+                    alert(res.message);
+                    window.location.reload();
+                }
+            })
+        })
     })
 </script>
 <script>
     $(function () {
-        var str = window.location.href;
-        var postId = str.substring(str.lastIndexOf("/") + 1);
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/post/findById?id=" + postId,
-            success: function (res) {
-                var leftDiv = $("#left");
-                var postDiv = $(`<div class="panel panel-success text-muted">
+        var slp = null;
+        var func = function (page, size) {
+            var str = window.location.href;
+            var postId = str.substring(str.lastIndexOf("/") + 1);
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/post/findByIdWithPage?id=" + postId + "&page=" + page + "&size=" + size,
+                success: function (res) {
+                    var leftDiv = $("#left");
+                    leftDiv.empty();
+                    var postDiv = $(`<div class="panel panel-success text-muted">
                                     <div class="panel-body">
                                         <p class="hidden">
                                             <span id="postId">${res.postId}</span>
@@ -141,8 +250,7 @@
                                         <h5>${res.userName} <small>${res.postTitle}</small> <small class="pull-right">${res.createTime}</small></h5>
                                         <p>
                                             ${res.postContent}
-                                            <span class="label label-success">评论 ${res.replyList.length}</span>
-                                            <button id="add" type="button" class="btn btn-default btn-xs pull-right">
+                                            <button friendId="${res.userId}" friendName="${res.userName}" type="button" class="btn btn-default btn-xs pull-right addFriend">
                                                 加好友
                                             </button>
                                             <button type="button" class="btn btn-default btn-xs pull-right mr10" data-toggle="modal" data-target="#myModal">
@@ -151,32 +259,63 @@
                                         </p>
                                     </div>
                                 </div>`);
-                leftDiv.append(postDiv);
-                for (var i = 0; i < res.replyList.length; i++) {
-                    var replyDiv = null;
-                    if ($.cookie("name") === res.replyList[i].userId) {
-                        replyDiv = $(`<div class="page-header text-muted">
+                    leftDiv.append(postDiv);
+                    for (var i = 0; i < res.replyList.length; i++) {
+                        var replyDiv = null;
+                        if ($.cookie("name") === res.replyList[i].userId) {
+                            replyDiv = $(`<div class="page-header text-muted">
                                         <h5>${res.replyList[i].userName} ${res.replyList[i].userId} <small class="pull-right">${res.replyList[i].createTime}</small></h5>
                                         <p>
                                             ${res.replyList[i].replyContent}
                                             <button val="${res.replyList[i].replyId}" type="button" class="btn btn-danger btn-xs pull-right del">
                                                 删除
                                             </button>
+                                            <button val="${res.replyList[i].replyId}" type="button" class="btn btn-default btn-xs pull-right mr10 modifyReply" data-toggle="modal" data-target="#myModal2">
+                                                修改
+                                            </button>
                                         </p>
                                     </div>`);
-                    } else {
-                        replyDiv = $(`<div class="page-header text-muted">
+                        } else {
+                            replyDiv = $(`<div class="page-header text-muted">
                                         <h5>${res.replyList[i].userName} ${res.replyList[i].userId} <small class="pull-right">${res.replyList[i].createTime}</small></h5>
                                         <p>
                                             ${res.replyList[i].replyContent}
+                                            <button friendId="${res.replyList[i].userId}" friendName="${res.replyList[i].userName}" type="button" class="btn btn-default btn-xs pull-right addFriend">
+                                                加好友
+                                            </button>
                                         </p>
                                     </div>`);
+                        }
+                        leftDiv.append(replyDiv);
                     }
-                    leftDiv.append(replyDiv);
+                    $.ajax({
+                        type: "get",
+                        url: "http://localhost:8080/post/findById?id=" + postId,
+                        success: function (res) {
+                            if (slp == null) {
+                                slp = new SimplePagination((res.replyList.length + 4 - 1) / 4);
+                                slp.init({
+                                    container: '.box',
+                                    maxShowBtnCount: 3,
+                                    onPageChange: state => {
+                                        console.log('pagination change:', state.pageNumber);
+                                        func(state.pageNumber, 4);
+                                    }
+                                })
+                            }
+                        }
+                    });
                 }
+            });
+        }
+        func(1, 4);
+        $(document).on("click", ".addFriend", function () {
+            var userId = $("#userId").text();
+            var friendId = $(this).attr("friendId");
+            if (userId === friendId) {
+                alert("不能添加自己为好友!");
+                return;
             }
-        });
-        $(document).on("click", "#add", function () {
             $.ajax({
                 type: "post",
                 url: "http://localhost:8080/friend/add",
@@ -184,8 +323,8 @@
                 data: JSON.stringify({
                     "userId": $("#userId").text(),
                     "userName": $("#userName").text(),
-                    "friendId": $("#postUserId").text(),
-                    "friendName": $("#postUserName").text()
+                    "friendId": $(this).attr("friendId"),
+                    "friendName": $(this).attr("friendName")
                 }),
                 success: function (res) {
                     alert(res.message);
@@ -199,6 +338,19 @@
                 success: function (res) {
                     alert(res.message);
                     window.location.reload();
+                }
+            });
+        });
+        $(document).on("click", ".modifyReply", function () {
+            var replyId = $(this).attr("val");
+            // console.log(replyId);
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/reply/findById?id=" + replyId,
+                success: function (res) {
+                    // console.log(res);
+                    $("#replyId").text(res.data.replyId);
+                    $("#replyContent2").val(res.data.replyContent);
                 }
             });
         });

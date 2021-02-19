@@ -20,14 +20,29 @@
     </resultMap>
 
     <select id="findAll" resultMap="postResultMap">
-        select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from tab_post p
+        select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from
+        (select p1.* from tab_post p1 order by p1.create_time desc limit #{m},#{n}) p
+        left join tab_reply r on p.post_id = r.post_id
+        order by p.create_time desc,r.create_time desc;
+    </select>
+
+    <select id="findAllByUserId" resultMap="postResultMap">
+        select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from
+        (select p1.* from tab_post p1 where p1.user_id = #{id} order by p1.create_time desc limit #{m},#{n}) p
         left join tab_reply r on p.post_id = r.post_id
         order by p.create_time desc,r.create_time desc;
     </select>
 
     <select id="findById" parameterType="java.lang.String" resultMap="postResultMap">
         select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from tab_post p
-        left join tab_reply r on p.post_id = r.post_id where p.post_id = #{id};
+        left join tab_reply r on p.post_id = r.post_id where p.post_id = #{id}
+        order by r.create_time desc;
+    </select>
+
+    <select id="findByIdWithPage" resultMap="postResultMap">
+        select p.*,r.reply_id,r.post_id post_id1,r.reply_content,r.user_id user_id1,r.user_name user_name1,r.create_time create_time1 from tab_post p
+        left join tab_reply r on p.post_id = r.post_id where p.post_id = #{id}
+        order by r.create_time desc limit #{m},#{n};
     </select>
 
 </mapper>

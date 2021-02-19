@@ -21,6 +21,15 @@ public class ReplyService {
     @Autowired
     private CachedUidGenerator cachedUidGenerator;
 
+    public Result findById(String id) {
+        return new Result(true, "查询成功", replyDao.selectByPrimaryKey(id));
+    }
+
+    public Result modify(Reply reply) {
+        replyDao.updateByPrimaryKeySelective(reply);
+        return new Result(true, "修改成功", reply.getReplyId());
+    }
+
     public Result add(Reply reply) {
         String replyId = String.valueOf(cachedUidGenerator.getUID());
         reply.setReplyId(replyId);

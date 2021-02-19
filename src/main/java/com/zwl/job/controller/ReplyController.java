@@ -18,10 +18,21 @@ public class ReplyController {
     @Autowired
     private ReplyService replyService;
 
+    @RequestMapping("/findById")
+    public Result findById(String id) {
+        return replyService.findById(id);
+    }
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result add(@RequestBody Reply reply) {
         System.out.println(reply);
         return replyService.add(reply);
+    }
+
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public Result modify(@RequestBody Reply reply) {
+        System.out.println(reply);
+        return replyService.modify(reply);
     }
 
     @RequestMapping("/del")

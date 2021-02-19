@@ -25,4 +25,9 @@ public class FriendController {
     public Result add(@RequestBody Friend friend) {
         return friendService.add(friend);
     }
+
+    @RequestMapping("/del")
+    public Result del(String userId, String friendId) {
+        return friendService.del(userId, friendId);
+    }
 }

@@ -42,6 +42,11 @@ public class PageController {
         return "discuss";
     }
 
+    @RequestMapping("/issue")
+    public String issue() {
+        return "issue";
+    }
+
     @RequestMapping("/post/{id}")
     public String post(@PathVariable String id) {
         return "post";
