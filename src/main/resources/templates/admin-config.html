@@ -41,6 +41,7 @@
     </div>
 </div>
 <script>
+    // 爬虫开关控制
     var btn = $("#btn");
     $.ajax({
         type: "get",
@@ -82,6 +83,8 @@
             $(this).text("on");
         }
     });
+
+    // 同步es到mysql
     var sync = $("#sync");
     sync.click(function () {
         $.ajax({

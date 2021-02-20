@@ -9,7 +9,6 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="/js/SimplePagination.js"></script>
     <script src="/js/init.js"></script>
-    <script src="/js/verify.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <style>
         /*搜索框*/
@@ -500,117 +499,24 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="hidden">
-                        <td>126893780</td>
-                        <td>前端工程师</td>
-                        <td>广州</td>
-                        <td>5-7年经验</td>
-                        <td>本科</td>
-                        <td>招2人</td>
-                        <td>11-22</td>
-                        <td>20000-30000</td>
-                        <td>杭州海康威视数字技术股份有限公司广州分公司</td>
-                        <td>
-                            <a href="detail/126893780">详情信息</a>
-                        </td>
-                    </tr>
+<!--                    <tr class="hidden">-->
+<!--                        <td>126893780</td>-->
+<!--                        <td>前端工程师</td>-->
+<!--                        <td>广州</td>-->
+<!--                        <td>5-7年经验</td>-->
+<!--                        <td>本科</td>-->
+<!--                        <td>招2人</td>-->
+<!--                        <td>11-22</td>-->
+<!--                        <td>20000-30000</td>-->
+<!--                        <td>杭州海康威视数字技术股份有限公司广州分公司</td>-->
+<!--                        <td>-->
+<!--                            <a href="detail/126893780">详情信息</a>-->
+<!--                        </td>-->
+<!--                    </tr>-->
                     </tbody>
                 </table>
             </div>
             <div class="box"></div>
-            <script>
-                var slp = null;
-                var findBtn = $("#find");
-                var myfunc = function(page, size) {
-                    var jobArea = $("#myselect>option:selected");
-                    var salaryMin = $("input[class=salary]").eq(0).val();
-                    var salaryMax = $("input[class=salary]").eq(1).val();
-                    var jobYear = $("input[name=jobYear]:checked");
-                    var jobEducation = $("input[name=jobEducation]:checked");
-                    var companyType = $("input[name=companyType]:checked");
-                    var companySize = $("input[name=companySize]:checked");
-                    var keyWord = $("#word");
-                    $.ajax({
-                        type: "get",
-                        url: "http://localhost:8080/jobitem/search2",
-                        dataType: "json",
-                        data: {
-                            "keyWord": keyWord.val(),
-                            "jobArea": jobArea.val(),
-                            "salaryMin": salaryMin,
-                            "salaryMax": salaryMax,
-                            "jobYear": jobYear.val(),
-                            "jobEducation": jobEducation.val(),
-                            "companySize": companySize.val(),
-                            "companyType": companyType.val(),
-                            "page": page,
-                            "size": size
-                        },
-                        success: function (res) {
-                            console.log(res);
-                            var table = $(".job>table");
-                            var tbody = $(".job>table>tbody");
-                            tbody.empty();
-                            var arr = res.data.content;
-                            for(var i = 0; i < arr.length; i++) {
-                                var tr = $("<tr></tr>");
-                                var td1 = $("<td></td>");
-                                td1.text(arr[i].jobId);
-                                var td2 = $("<td></td>");
-                                td2.html(arr[i].jobName);
-                                var td3 = $("<td></td>");
-                                td3.text(arr[i].jobArea);
-                                var td4 = $("<td></td>");
-                                td4.text(arr[i].jobYear);
-                                var td5 = $("<td></td>");
-                                td5.text(arr[i].jobEducation);
-                                var td6 = $("<td></td>");
-                                td6.text(arr[i].jobDemand);
-                                var td7 = $("<td></td>");
-                                td7.text(arr[i].issueDate);
-                                var td8 = $("<td></td>");
-                                td8.text(arr[i].salaryMin + "-" + arr[i].salaryMax);
-                                var td9 = $("<td></td>");
-                                td9.html(arr[i].companyName);
-                                var td10 = $("<td></td>");
-                                var a = $("<a href=\"\" target='_blank'>详情信息</a>");
-                                a.attr("href", "/detail/" + arr[i].jobId);
-                                td10.html(a);
-                                tr.append(td1);
-                                tr.append(td2);
-                                tr.append(td3);
-                                tr.append(td4);
-                                tr.append(td5);
-                                tr.append(td6);
-                                tr.append(td7);
-                                tr.append(td8);
-                                tr.append(td9);
-                                tr.append(td10);
-                                tbody.append(tr);
-                            }
-                            if (slp == null) {
-                                if (res.data.totalPages === 0) {
-                                    res.data.totalPages = 1;
-                                }
-                                slp = new SimplePagination(res.data.totalPages);
-                                slp.init({
-                                    container: '.box',
-                                    maxShowBtnCount: 3,
-                                    onPageChange: state => {
-                                        console.log('pagination change:', state.pageNumber);
-                                        myfunc(state.pageNumber, size)
-                                    }
-                                })
-                            }
-                        }
-                    });
-                }
-                myfunc(1, 5);
-                findBtn.click(function () {
-                    slp = null;
-                    myfunc(1, 5);
-                });
-            </script>
         </div>
     </div>
 </div>
@@ -619,5 +525,103 @@
         Copyright © 2016-2020 Echo
     </div>
 </div>
+<script>
+    $(function () {
+        // 职位分页显示
+        var slp = null;
+        var myfunc = function(page, size) {
+            var jobArea = $("#myselect>option:selected");
+            var salaryMin = $("input[class=salary]").eq(0).val();
+            var salaryMax = $("input[class=salary]").eq(1).val();
+            var jobYear = $("input[name=jobYear]:checked");
+            var jobEducation = $("input[name=jobEducation]:checked");
+            var companyType = $("input[name=companyType]:checked");
+            var companySize = $("input[name=companySize]:checked");
+            var keyWord = $("#word");
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/jobitem/search2",
+                dataType: "json",
+                data: {
+                    "keyWord": keyWord.val(),
+                    "jobArea": jobArea.val(),
+                    "salaryMin": salaryMin,
+                    "salaryMax": salaryMax,
+                    "jobYear": jobYear.val(),
+                    "jobEducation": jobEducation.val(),
+                    "companySize": companySize.val(),
+                    "companyType": companyType.val(),
+                    "page": page,
+                    "size": size
+                },
+                success: function (res) {
+                    // console.log(res);
+                    // var table = $(".job>table");
+                    var tbody = $(".job>table>tbody");
+                    tbody.empty();
+                    var arr = res.data.content;
+                    for(var i = 0; i < arr.length; i++) {
+                        var tr = $("<tr></tr>");
+                        var td1 = $("<td></td>");
+                        td1.text(arr[i].jobId);
+                        var td2 = $("<td></td>");
+                        td2.html(arr[i].jobName);
+                        var td3 = $("<td></td>");
+                        td3.text(arr[i].jobArea);
+                        var td4 = $("<td></td>");
+                        td4.text(arr[i].jobYear);
+                        var td5 = $("<td></td>");
+                        td5.text(arr[i].jobEducation);
+                        var td6 = $("<td></td>");
+                        td6.text(arr[i].jobDemand);
+                        var td7 = $("<td></td>");
+                        td7.text(arr[i].issueDate);
+                        var td8 = $("<td></td>");
+                        td8.text(arr[i].salaryMin + "-" + arr[i].salaryMax);
+                        var td9 = $("<td></td>");
+                        td9.html(arr[i].companyName);
+                        var td10 = $("<td></td>");
+                        var a = $("<a href=\"\" target='_blank'>详情信息</a>");
+                        a.attr("href", "/detail/" + arr[i].jobId);
+                        td10.html(a);
+                        tr.append(td1);
+                        tr.append(td2);
+                        tr.append(td3);
+                        tr.append(td4);
+                        tr.append(td5);
+                        tr.append(td6);
+                        tr.append(td7);
+                        tr.append(td8);
+                        tr.append(td9);
+                        tr.append(td10);
+                        tbody.append(tr);
+                    }
+                    if (slp == null) {
+                        if (res.data.totalPages === 0) {
+                            res.data.totalPages = 1;
+                        }
+                        slp = new SimplePagination(res.data.totalPages);
+                        slp.init({
+                            container: '.box',
+                            maxShowBtnCount: 3,
+                            onPageChange: state => {
+                                console.log('pagination change:', state.pageNumber);
+                                myfunc(state.pageNumber, size)
+                            }
+                        })
+                    }
+                }
+            });
+        }
+        myfunc(1, 5);
+
+        // 搜索职位
+        var findBtn = $("#find");
+        findBtn.click(function () {
+            slp = null;
+            myfunc(1, 5);
+        });
+    })
+</script>
 </body>
 </html>

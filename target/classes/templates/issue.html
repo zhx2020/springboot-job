@@ -9,7 +9,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="/js/SimplePagination.js"></script>
     <script src="/js/init.js"></script>
-    <script src="/js/verify.js"></script>
+    <script src="/js/push.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <style>
         .pagination {
@@ -93,33 +93,33 @@
 <div id="main">
     <div class="content pt30 pb30 row">
         <div class="col-md-10" id="left">
-            <a href="post.html" target="_blank" style="text-decoration: none" class="hidden">
-                <div class="panel panel-success text-muted">
-                    <span class="hidden">2772908924928</span>
-                    <div class="panel-body">
-                        <h5>_1328 <small>求职</small> <small class="pull-right">2020-01-02</small></h5>
-                        <p>
-                            Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。
-                            <span class="label label-success">评论 4</span>
-                        </p>
-                    </div>
-                </div>
-            </a>
+<!--            <a href="post.html" target="_blank" style="text-decoration: none" class="hidden">-->
+<!--                <div class="panel panel-success text-muted">-->
+<!--                    <span class="hidden">2772908924928</span>-->
+<!--                    <div class="panel-body">-->
+<!--                        <h5>_1328 <small>求职</small> <small class="pull-right">2020-01-02</small></h5>-->
+<!--                        <p>-->
+<!--                            Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。-->
+<!--                            <span class="label label-success">评论 4</span>-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </a>-->
         </div>
         <div class="col-md-2" id="right">
-            <a href="detail.html" style="text-decoration: none" class="hidden">
-                <div class="panel panel-danger">
-                    <div class="panel-body text-muted">
-                        <h5>Java开发工程师</h5>
-                        <h6>前锦网络信息技术（上海）有限公司</h6>
-                        <h6><span>北京</span> <span>6000-8000</span></h6>
-                    </div>
-                </div>
-            </a>
+<!--            <a href="detail.html" style="text-decoration: none" class="hidden">-->
+<!--                <div class="panel panel-danger">-->
+<!--                    <div class="panel-body text-muted">-->
+<!--                        <h5>Java开发工程师</h5>-->
+<!--                        <h6>前锦网络信息技术（上海）有限公司</h6>-->
+<!--                        <h6><span>北京</span> <span>6000-8000</span></h6>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </a>-->
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success btn-xs hidden" data-toggle="modal" data-target="#myModal">
-                发布
-            </button>
+<!--            <button type="button" class="btn btn-success btn-xs hidden" data-toggle="modal" data-target="#myModal">-->
+<!--                发布-->
+<!--            </button>-->
         </div>
         <div class="col-md-12">
             <div class="box"></div>
@@ -161,6 +161,7 @@
 </div>
 <script>
     $(function () {
+        // 修改帖子
         var modifyBtn = $("#save");
         modifyBtn.click(function () {
             var postId = $("#postId").text();
@@ -181,6 +182,8 @@
                 }
             })
         });
+
+        // 删除帖子
         $(document).on("click", ".delPost", function () {
             $.ajax({
                 type: "get",
@@ -191,10 +194,25 @@
                 }
             });
         });
-    })
-</script>
-<script>
-    $(function () {
+
+        // 显示帖子内容
+        $(document).on("click", ".modifyPost", function () {
+            var postId = $(this).attr("val");
+            // console.log(replyId);
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/post/findById?id=" + postId,
+                success: function (res) {
+                    console.log(res);
+                    // $("#replyId").text(res.data.replyId);
+                    $("#postId").text(res.postId);
+                    $("#postTitle").val(res.postTitle);
+                    $("#postContent").val(res.postContent);
+                }
+            });
+        });
+
+        // 帖子分页显示
         var slp = null;
         var func = function(page, size) {
             $.ajax({
@@ -242,49 +260,6 @@
             });
         }
         func(1, 4);
-    })
-</script>
-<script>
-    $(function () {
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/jobitem/push?id=" + $.cookie("name"),
-            success: function (res) {
-                console.log(res);
-                var rightDiv = $("#right");
-                for (var i = 0 ; i < res.data.content.length; i++) {
-                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" target="_blank" style="text-decoration: none">
-                                        <div class="panel panel-success">
-                                            <div class="panel-body text-muted">
-                                                <h5>${res.data.content[i].jobName}</h5>
-                                                <h6>${res.data.content[i].companyName}</h6>
-                                                <h6><span>${res.data.content[i].jobArea}</span> <span>${res.data.content[i].salaryMin}-${res.data.content[i].salaryMax}</span></h6>
-                                            </div>
-                                        </div>
-                                    </a>`);
-                    rightDiv.append(jobDiv);
-                }
-                // var addPost = $(`<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">
-                //                     发布
-                //                 </button>`);
-                // rightDiv.append(addPost);
-            }
-        })
-        $(document).on("click", ".modifyPost", function () {
-            var postId = $(this).attr("val");
-            // console.log(replyId);
-            $.ajax({
-                type: "get",
-                url: "http://localhost:8080/post/findById?id=" + postId,
-                success: function (res) {
-                    console.log(res);
-                    // $("#replyId").text(res.data.replyId);
-                    $("#postId").text(res.postId);
-                    $("#postTitle").val(res.postTitle);
-                    $("#postContent").val(res.postContent);
-                }
-            });
-        });
     })
 </script>
 </body>

@@ -36,29 +36,30 @@
             </tr>
             </thead>
             <tbody id="myTbody">
-            <tr class="hidden">
-                <td>111</td>
-                <td>张三</td>
-                <td>123456</td>
-                <td>java</td>
-                <td>6k-8k</td>
-                <td>北京</td>
-                <td>1年经验</td>
-                <td>本科</td>
-                <td>2021.01.01</td>
-                <td><buttton type="button" class="btn btn-danger btn-xs delUser">删除</buttton></td>
-            </tr>
+<!--            <tr class="hidden">-->
+<!--                <td>111</td>-->
+<!--                <td>张三</td>-->
+<!--                <td>123456</td>-->
+<!--                <td>java</td>-->
+<!--                <td>6k-8k</td>-->
+<!--                <td>北京</td>-->
+<!--                <td>1年经验</td>-->
+<!--                <td>本科</td>-->
+<!--                <td>2021.01.01</td>-->
+<!--                <td><buttton type="button" class="btn btn-danger btn-xs delUser">删除</buttton></td>-->
+<!--            </tr>-->
             </tbody>
         </table>
     </div>
 </div>
 <script>
     $(function () {
+        // 查询所有用户
         $.ajax({
             type: "get",
             url: "http://localhost:8080/user/findAll",
             success: function (res) {
-                console.log(res);
+                // console.log(res);
                 var tbody = $("#myTbody");
                 for (var i = 0; i < res.length; i++) {
                     var tr = $(`<tr>
@@ -77,6 +78,8 @@
                 }
             }
         });
+
+        // 删除用户
         $(document).on("click", ".delUser", function () {
             $.ajax({
                 type: "get",

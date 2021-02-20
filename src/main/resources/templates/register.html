@@ -7,9 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="/js/verify.js"></script>
     <link rel="stylesheet" href="/css/base.css">
-
 </head>
 <body>
 <div id="header">
@@ -67,6 +65,7 @@
 </div>
 <script>
     $(function () {
+        // 日期格式化
         Date.prototype.format = function(fmt) {
             var o = {
                 "M+" : this.getMonth()+1,                 //月份
@@ -87,6 +86,8 @@
             }
             return fmt;
         };
+
+        // 获取验证码
         var getCodeBtn = $("#getCode");
         getCodeBtn.click(function () {
             var userId = $("#userId").val();
@@ -100,6 +101,8 @@
                 }
             })
         });
+
+        // 用户注册
         var registerBtn = $("#register");
         registerBtn.click(function () {
             var userId = $("#userId").val();
@@ -136,6 +139,23 @@
                 }
             })
         })
+
+        // 判断是否能跳转
+        $(document).on("click", ".limit", function () {
+            var token = $.cookie("token");
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/user/check",
+                headers: {
+                    'token': token
+                },
+                success: function (res) {
+                    if (!res.flag) {
+                        window.location.href = "/login";
+                    }
+                }
+            });
+        });
     })
 </script>
 </body>

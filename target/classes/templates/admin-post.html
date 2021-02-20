@@ -81,6 +81,7 @@
 </div>
 <script>
     $(function () {
+        // 查询所有帖子
         $.ajax({
             type: "get",
             url: "http://localhost:8080/post/findAll?page=1&size=100",
@@ -128,6 +129,8 @@
                 }
             }
         });
+
+        // 删除回复
         $(document).on("click", ".delReply", function () {
             $.ajax({
                 type: "get",
@@ -138,6 +141,8 @@
                 }
             });
         });
+
+        // 删除帖子
         $(document).on("click", ".delPost", function () {
             $.ajax({
                 type: "get",

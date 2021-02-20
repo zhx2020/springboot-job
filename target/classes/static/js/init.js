@@ -1,4 +1,5 @@
 $(function () {
+    // 判断是否登录
     var token = $.cookie("token");
     $.ajax({
         type: "get",
@@ -7,7 +8,7 @@ $(function () {
             'token': token
         },
         success: function (res) {
-            console.log(res);
+            // console.log(res);
             if (res.flag) {
                 // alert("用户Id为：" + res.data.userId);
                 var indexLi = $(".index");
@@ -17,6 +18,12 @@ $(function () {
                 indexLi.after(userIdLi, userNameLi, logoutLi);
             } else {
                 // alert(res.message);
+                var str = window.location.href;
+                var page = str.substring(str.lastIndexOf("/") + 1);
+                if (page !== "index") {
+                    window.location.href = "/index";
+                }
+
                 var indexLi = $(".index");
                 var loginLi = $("<li><a href='/login'>登录</a></li>");
                 var registerLi = $("<li><a href='/register'>注册</a></li>");
@@ -24,10 +31,31 @@ $(function () {
             }
         }
     });
+
+    // 判断是否能跳转
+    $(document).on("click", ".limit", function () {
+        var token = $.cookie("token");
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/user/check",
+            headers: {
+                'token': token
+            },
+            success: function (res) {
+                if (!res.flag) {
+                    window.location.href = "/login";
+                }
+            }
+        });
+    });
+
+    // 退出登录
     $(document).on("click", "#logout", function () {
         $.cookie("token", '', {expires: -1, path: "/"});
-        window.location.reload();
+        window.location.href = "/index";
     });
+
+    // 日期格式化
     Date.prototype.format = function(fmt) {
         var o = {
             "M+" : this.getMonth()+1,                 //月份

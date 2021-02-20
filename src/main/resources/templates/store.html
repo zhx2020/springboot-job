@@ -9,7 +9,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="/js/SimplePagination.js"></script>
     <script src="/js/init.js"></script>
-    <script src="/js/verify.js"></script>
+    <script src="/js/push.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <style>
         .pagination {
@@ -93,29 +93,29 @@
 <div id="main">
     <div class="content pt30 row">
         <div class="col-md-10" id="left">
-            <div class="thumbnail hidden">
-                <div class="caption">
-                    <h5>
-                        <a href="detail.html" class="text-muted" style="text-decoration: none;">Java开发工程师</a>
-                        <small>13283457</small>
-                        <small>2020.01.01</small>
-                        <button val="13283457" type="button" class="btn btn-danger btn-xs pull-right del">
-                            删除
-                        </button>
-                    </h5>
-                </div>
-            </div>
+<!--            <div class="thumbnail hidden">-->
+<!--                <div class="caption">-->
+<!--                    <h5>-->
+<!--                        <a href="detail.html" class="text-muted" style="text-decoration: none;">Java开发工程师</a>-->
+<!--                        <small>13283457</small>-->
+<!--                        <small>2020.01.01</small>-->
+<!--                        <button val="13283457" type="button" class="btn btn-danger btn-xs pull-right del">-->
+<!--                            删除-->
+<!--                        </button>-->
+<!--                    </h5>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <div class="col-md-2" id="right">
-            <a href="detail.html" style="text-decoration: none" class="hidden">
-                <div class="panel panel-success">
-                    <div class="panel-body text-muted">
-                        <h5>Java开发工程师</h5>
-                        <h6>前锦网络信息技术（上海）有限公司</h6>
-                        <h6><span>北京</span> <span>6000-8000</span></h6>
-                    </div>
-                </div>
-            </a>
+<!--            <a href="detail.html" style="text-decoration: none" class="hidden">-->
+<!--                <div class="panel panel-success">-->
+<!--                    <div class="panel-body text-muted">-->
+<!--                        <h5>Java开发工程师</h5>-->
+<!--                        <h6>前锦网络信息技术（上海）有限公司</h6>-->
+<!--                        <h6><span>北京</span> <span>6000-8000</span></h6>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </a>-->
         </div>
         <div class="col-md-12">
             <div class="box"></div>
@@ -129,6 +129,7 @@
 </div>
 <script>
     $(function () {
+        // 收藏职位分页显示
         var slp = null;
         var func = function(page, size) {
             $.ajax({
@@ -174,26 +175,8 @@
             });
         }
         func(1, 6);
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/jobitem/push?id=" + $.cookie("name"),
-            success: function (res) {
-                console.log(res);
-                var rightDiv = $("#right");
-                for (var i = 0 ; i < res.data.content.length; i++) {
-                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" target="_blank" style="text-decoration: none">
-                                        <div class="panel panel-success">
-                                            <div class="panel-body text-muted">
-                                                <h5>${res.data.content[i].jobName}</h5>
-                                                <h6>${res.data.content[i].companyName}</h6>
-                                                <h6><span>${res.data.content[i].jobArea}</span> <span>${res.data.content[i].salaryMin}-${res.data.content[i].salaryMax}</span></h6>
-                                            </div>
-                                        </div>
-                                    </a>`);
-                    rightDiv.append(jobDiv);
-                }
-            }
-        });
+
+        // 取消收藏
         $(document).on("click", ".del", function () {
             $.ajax({
                 type: "get",

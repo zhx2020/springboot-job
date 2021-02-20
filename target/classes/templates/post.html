@@ -9,7 +9,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="/js/SimplePagination.js"></script>
     <script src="/js/init.js"></script>
-    <script src="/js/verify.js"></script>
+    <script src="/js/push.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <style>
         .pagination {
@@ -83,6 +83,7 @@
                 <li><a href="/search" class="limit">职位搜索</a></li>
                 <li><a href="/store" class="limit">我的收藏</a></li>
                 <li><a href="/discuss" class="limit">讨论区</a></li>
+                <li><a href="/issue" class="limit">我的发布</a></li>
                 <li><a href="/chat" class="limit">好友聊天</a></li>
                 <li><a href="/center" class="limit">个人中心</a></li>
             </ul>
@@ -92,41 +93,41 @@
 <div id="main">
     <div class="content pt30 row">
         <div class="col-md-10" id="left">
-            <div class="panel panel-success text-muted hidden">
-                <div class="panel-body">
-                    <h5>_1328 <small>求职</small> <small class="pull-right">2020-01-02</small></h5>
-                    <p>
-                        Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。
-                        <span class="label label-success">评论 4</span>
-                        <button id="add" type="button" class="btn btn-warning btn-xs pull-right">
-                            加好友
-                        </button>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-info btn-xs pull-right mr10" data-toggle="modal" data-target="#myModal">
-                            回复
-                        </button>
-                    </p>
-                </div>
-            </div>
-            <div class="page-header hidden">
-                <h5>张三 <small class="pull-right">2021.01.01</small></h5>
-                <p>Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。
-                    <button id="del" type="button" class="btn btn-danger btn-xs pull-right">
-                        删除
-                    </button>
-                </p>
-            </div>
+<!--            <div class="panel panel-success text-muted hidden">-->
+<!--                <div class="panel-body">-->
+<!--                    <h5>_1328 <small>求职</small> <small class="pull-right">2020-01-02</small></h5>-->
+<!--                    <p>-->
+<!--                        Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。-->
+<!--                        <span class="label label-success">评论 4</span>-->
+<!--                        <button id="add" type="button" class="btn btn-warning btn-xs pull-right">-->
+<!--                            加好友-->
+<!--                        </button>-->
+<!--                        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
+<!--                        <button type="button" class="btn btn-info btn-xs pull-right mr10" data-toggle="modal" data-target="#myModal">-->
+<!--                            回复-->
+<!--                        </button>-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="page-header hidden">-->
+<!--                <h5>张三 <small class="pull-right">2021.01.01</small></h5>-->
+<!--                <p>Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。Bootstrap 是全球最受欢迎的前端开源工具库，它支持 Sass 变量和 mixin、响应式栅格系统、自带大量组件和众多强大的 JavaScript 插件。基于 Bootstrap 提供的强大功能，能够让你快速设计并定制你的网站。-->
+<!--                    <button id="del" type="button" class="btn btn-danger btn-xs pull-right">-->
+<!--                        删除-->
+<!--                    </button>-->
+<!--                </p>-->
+<!--            </div>-->
         </div>
         <div class="col-md-2" id="right">
-            <a href="detail.html" style="text-decoration: none" class="hidden">
-                <div class="panel panel-success">
-                    <div class="panel-body text-muted">
-                        <h5>Java开发工程师</h5>
-                        <h6>前锦网络信息技术（上海）有限公司</h6>
-                        <h6><span>北京</span> <span>6000-8000</span></h6>
-                    </div>
-                </div>
-            </a>
+<!--            <a href="detail.html" style="text-decoration: none" class="hidden">-->
+<!--                <div class="panel panel-success">-->
+<!--                    <div class="panel-body text-muted">-->
+<!--                        <h5>Java开发工程师</h5>-->
+<!--                        <h6>前锦网络信息技术（上海）有限公司</h6>-->
+<!--                        <h6><span>北京</span> <span>6000-8000</span></h6>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </a>-->
         </div>
         <div class="col-md-12">
             <div class="box"></div>
@@ -186,6 +187,7 @@
 </div>
 <script>
     $(function () {
+        // 回复帖子
         var saveBtn = $("#save");
         saveBtn.click(function () {
             var postId = $("#postId").text();
@@ -209,6 +211,8 @@
                 }
             })
         })
+
+        // 修改回复
         var modifyBtn = $("#save2");
         modifyBtn.click(function () {
             var replyId = $("#replyId").text();
@@ -227,10 +231,8 @@
                 }
             })
         })
-    })
-</script>
-<script>
-    $(function () {
+
+        // 回复分页显示
         var slp = null;
         var func = function (page, size) {
             var str = window.location.href;
@@ -311,6 +313,8 @@
             });
         }
         func(1, 4);
+
+        // 添加好友
         $(document).on("click", ".addFriend", function () {
             var userId = $("#userId").text();
             var friendId = $(this).attr("friendId");
@@ -333,6 +337,8 @@
                 }
             });
         });
+
+        // 删除回复
         $(document).on("click", ".del", function () {
             $.ajax({
                 type: "get",
@@ -343,6 +349,8 @@
                 }
             });
         });
+
+        // 修改回复
         $(document).on("click", ".modifyReply", function () {
             var replyId = $(this).attr("val");
             // console.log(replyId);
@@ -356,30 +364,6 @@
                 }
             });
         });
-    })
-</script>
-<script>
-    $(function () {
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/jobitem/push?id=" + $.cookie("name"),
-            success: function (res) {
-                console.log(res);
-                var rightDiv = $("#right");
-                for (var i = 0 ; i < res.data.content.length; i++) {
-                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" target="_blank" style="text-decoration: none">
-                                        <div class="panel panel-success">
-                                            <div class="panel-body text-muted">
-                                                <h5>${res.data.content[i].jobName}</h5>
-                                                <h6>${res.data.content[i].companyName}</h6>
-                                                <h6><span>${res.data.content[i].jobArea}</span> <span>${res.data.content[i].salaryMin}-${res.data.content[i].salaryMax}</span></h6>
-                                            </div>
-                                        </div>
-                                    </a>`);
-                    rightDiv.append(jobDiv);
-                }
-            }
-        })
     })
 </script>
 </body>
