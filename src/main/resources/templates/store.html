@@ -7,8 +7,71 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="/js/init2.js"></script>
+    <script src="/js/SimplePagination.js"></script>
+    <script src="/js/init.js"></script>
+    <script src="/js/verify.js"></script>
     <link rel="stylesheet" href="/css/base.css">
+    <style>
+        .pagination {
+            margin: 0;
+            font-size: 0;
+            text-align: center; }
+        .pagination .page-li {
+            display: inline-block;
+            font-size: 12px;
+            line-height: 1;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            user-select: none; }
+        .pagination .page-li:hover {
+            cursor: pointer;
+            background-color: #EAEAEA; }
+        .pagination .page-li.page-active {
+            cursor: default;
+            color: #fff;
+            border-color: #00a65a;
+            background-color: #00a65a; }
+        .pagination .page-li.number-ellipsis {
+            border: none;
+            cursor: default; }
+        .pagination .page-li.number-ellipsis:hover {
+            background-color: #fff; }
+        .pagination .page-number {
+            width: 30px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border: 1px solid #EAEAEA;
+            text-align: center; }
+        .pagination .page-prev {
+            padding: 8px 14px;
+            margin-right: 8px;
+            border: 1px solid #EAEAEA; }
+        .pagination .page-prev.no-prev {
+            color: #c6c6c6; }
+        .pagination .page-prev.no-prev:hover {
+            cursor: default;
+            background-color: #fff; }
+        .pagination .page-next {
+            padding: 8px 14px;
+            margin-left: 8px;
+            border: 1px solid #EAEAEA; }
+        .pagination .page-next.no-next {
+            color: #c6c6c6; }
+        .pagination .page-next.no-next:hover {
+            cursor: default;
+            background-color: #fff; }
+        .pagination .number-ellipsis {
+            display: inline-block;
+            font-size: 15px;
+            padding: 8px 14px; }
+        .pagination .number-ellipsis.page-hidden {
+            display: none; }
+        #page-go {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div id="header">
@@ -17,11 +80,12 @@
         <div class="right">
             <ul>
                 <li class="index"><a href="/index">首页</a></li>
-                <li><a href="/search">职位搜索</a></li>
-                <li><a href="/store" class="cur">我的收藏</a></li>
-                <li><a href="/discuss">讨论区</a></li>
-                <li><a href="/chat">好友聊天</a></li>
-                <li><a href="/center">个人中心</a></li>
+                <li><a href="/search" class="limit">职位搜索</a></li>
+                <li><a href="/store" class="limit cur">我的收藏</a></li>
+                <li><a href="/discuss" class="limit">讨论区</a></li>
+                <li><a href="/issue" class="limit">我的发布</a></li>
+                <li><a href="/chat" class="limit">好友聊天</a></li>
+                <li><a href="/center" class="limit">个人中心</a></li>
             </ul>
         </div>
     </div>
@@ -53,6 +117,9 @@
                 </div>
             </a>
         </div>
+        <div class="col-md-12">
+            <div class="box"></div>
+        </div>
     </div>
 </div>
 <div id="footer">
@@ -62,17 +129,20 @@
 </div>
 <script>
     $(function () {
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/store/findById?id=" + $.cookie("name"),
-            success: function (res) {
-                console.log(res);
-                var leftDiv = $("#left");
-                for (var i = 0 ; i < res.data.length; i++) {
-                    var jobDiv = $(`<div class="thumbnail">
+        var slp = null;
+        var func = function(page, size) {
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8080/store/findByIdWithPage?id=" + $.cookie("name") + "&page=" + page + "&size=" + size,
+                success: function (res) {
+                    console.log(res);
+                    var leftDiv = $("#left");
+                    leftDiv.empty();
+                    for (var i = 0 ; i < res.data.length; i++) {
+                        var jobDiv = $(`<div class="thumbnail">
                                         <div class="caption">
                                             <h5>
-                                                <a href="/detail/${res.data[i].jobId}" class="text-muted" style="text-decoration: none;">${res.data[i].jobName}</a>
+                                                <a href="/detail/${res.data[i].jobId}" target="_blank" class="text-muted" style="text-decoration: none;">${res.data[i].jobName}</a>
                                                 <small>${res.data[i].jobId}</small>
                                                 <small>${res.data[i].createTime}</small>
                                                 <button val="${res.data[i].jobId}" type="button" class="btn btn-danger btn-xs pull-right del">
@@ -81,10 +151,29 @@
                                             </h5>
                                         </div>
                                     </div>`);
-                    leftDiv.append(jobDiv);
+                        leftDiv.append(jobDiv);
+                    }
+                    $.ajax({
+                        type: "get",
+                        url: "http://localhost:8080/store/findById?id=" + $.cookie("name"),
+                        success: function (res) {
+                            if (slp == null) {
+                                slp = new SimplePagination((res.data.length + 6 - 1) / 6);
+                                slp.init({
+                                    container: '.box',
+                                    maxShowBtnCount: 3,
+                                    onPageChange: state => {
+                                        console.log('pagination change:', state.pageNumber);
+                                        func(state.pageNumber, 6);
+                                    }
+                                })
+                            }
+                        }
+                    });
                 }
-            }
-        });
+            });
+        }
+        func(1, 6);
         $.ajax({
             type: "get",
             url: "http://localhost:8080/jobitem/push?id=" + $.cookie("name"),
@@ -92,7 +181,7 @@
                 console.log(res);
                 var rightDiv = $("#right");
                 for (var i = 0 ; i < res.data.content.length; i++) {
-                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" style="text-decoration: none">
+                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" target="_blank" style="text-decoration: none">
                                         <div class="panel panel-success">
                                             <div class="panel-body text-muted">
                                                 <h5>${res.data.content[i].jobName}</h5>

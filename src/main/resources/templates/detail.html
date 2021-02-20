@@ -7,7 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="/js/init2.js"></script>
+    <script src="/js/init.js"></script>
+    <script src="/js/verify.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <style>
         .myTitle {
@@ -27,61 +28,61 @@
         <div class="right">
             <ul>
                 <li class="index"><a href="/index">首页</a></li>
-                <li><a href="/search">职位搜索</a></li>
-                <li><a href="/store">我的收藏</a></li>
-                <li><a href="/discuss">讨论区</a></li>
-                <li><a href="/issue">我的发布</a></li>
-                <li><a href="/chat">好友聊天</a></li>
-                <li><a href="/center">个人中心</a></li>
+                <li><a href="/search" class="limit">职位搜索</a></li>
+                <li><a href="/store" class="limit">我的收藏</a></li>
+                <li><a href="/discuss" class="limit">讨论区</a></li>
+                <li><a href="/issue" class="limit">我的发布</a></li>
+                <li><a href="/chat" class="limit">好友聊天</a></li>
+                <li><a href="/center" class="limit">个人中心</a></li>
             </ul>
         </div>
     </div>
 </div>
 <div id="main">
     <div class="content pt30 pb30 row">
-        <div class="col-md-10">
-            <p>
-                <span class="label label-primary" id="jobName" style="font-size: 16px;">Java高级开发工程师</span>
-                <span style="display: none" class="label label-primary" id="jobId">13283457</span>
-                <a href="" class="btn btn-link" id="jobHref" target="_blank">去投递</a>
-            </p>
-            <p>
-                <span class="label label-danger" id="companyName" style="font-size: 14px;">亚信科技PRD</span>
-                <span class="label label-danger"><span id="min">6000</span> - <span id="max">8000</span></span>
-            </p>
-            <p>
-                <span id="jobAttr" class="label label-success">北京-海淀区 5-7年经验 硕士 招1人 01-03发布</span>
-            </p>
-            <p>
-                <span id="jobWelf" class="label label-warning">年终奖金 弹性工作 绩效奖金 员工旅游 专业培训</span>
-            </p>
-            <h5 class="myTitle">职位信息</h5>
-            <p id="jobMsg" class="h5">
-                岗位职责：
-                1、负责智能安防一体机产品开发及技术攻关；
-                2、负责产品核心功能优化；
-                3、负责技术方案编写；
-                4、安排的其他重要工作。
-                岗位要求：
-                1、熟练掌握主流Java开发技术如：spring/springboot、mybatis/hibernate等；
-                2、熟悉js/jquery/vue等前端框架者优先；
-                3、熟练掌握mysql、oracle 等关系型数据库；
-                4. 对hadoop、spark、redis、kafka 有深度使用经验的优先；
-                5、有分布式系统分析、设计、开发、优化经验者优先。
-                职能类别：Java开发工程师
-            </p>
-            <h5 class="myTitle">公司信息</h5>
-            <p><span id="companyAttr" class="label label-info"></span></p>
-            <p id="companyMsg" class="h5">
-                亚信科技拥有员工11000余名，业务遍布全国30余省，通过对电信行业的积极探索与支撑，沉淀了深厚的技术实力，凭借对行业深刻的理解与项目管理能力形成了高性能、高专业化、高可靠的电信级软件产品及服务，持续满足客户日益复杂的业务需求，为客户创造新价值。
-                亚信科技作为中国电信软件产品及相关服务市场的领军型企业， 形成了由AISWare Big Data，AISWare Billing、AISWare CRM等系列产品，并积极拓展中国非电信行业企业级软件产品及相关服务市场，在智慧社区、智慧零售、车联网、公共服务、智能运维等领域均有创新实践，与客户共同探索智慧运营新模式。
-                亚信科技立足于服务运营商20余年的基础之上，持续加强自身的服务能力、产品能力、集成能力与运营能力，将对电信行业的深入理解与人工智能、机器学习、物联网、大数据等技术相结合，持续挖掘新客户、拓展新业务、开创新模式，成就电信运营商与行业客户的数字化转型，推动中国数字化浪潮的深入发展。
-            </p>
-            <h5 class="myTitle">联系方式</h5>
-            <p id="companyArea" class="h5">上班地址：西二旗中关村软件园二期亚信大厦</p>
-            <p>
-                <button class="btn btn-success btn-xs" id="store">收藏职位</button>
-            </p>
+        <div class="col-md-10" id="left">
+<!--            <p>-->
+<!--                <span class="label label-primary" id="jobName" style="font-size: 16px;">Java高级开发工程师</span>-->
+<!--                <span style="display: none" class="label label-primary" id="jobId">13283457</span>-->
+<!--                <a href="" class="btn btn-link" id="jobHref" target="_blank">去投递</a>-->
+<!--            </p>-->
+<!--            <p>-->
+<!--                <span class="label label-danger" id="companyName" style="font-size: 14px;">亚信科技PRD</span>-->
+<!--                <span class="label label-danger"><span id="min">6000</span> - <span id="max">8000</span></span>-->
+<!--            </p>-->
+<!--            <p>-->
+<!--                <span id="jobAttr" class="label label-success">北京-海淀区 5-7年经验 硕士 招1人 01-03发布</span>-->
+<!--            </p>-->
+<!--            <p>-->
+<!--                <span id="jobWelf" class="label label-warning">年终奖金 弹性工作 绩效奖金 员工旅游 专业培训</span>-->
+<!--            </p>-->
+<!--            <h5 class="myTitle">职位信息</h5>-->
+<!--            <p id="jobMsg" class="h5">-->
+<!--                岗位职责：-->
+<!--                1、负责智能安防一体机产品开发及技术攻关；-->
+<!--                2、负责产品核心功能优化；-->
+<!--                3、负责技术方案编写；-->
+<!--                4、安排的其他重要工作。-->
+<!--                岗位要求：-->
+<!--                1、熟练掌握主流Java开发技术如：spring/springboot、mybatis/hibernate等；-->
+<!--                2、熟悉js/jquery/vue等前端框架者优先；-->
+<!--                3、熟练掌握mysql、oracle 等关系型数据库；-->
+<!--                4. 对hadoop、spark、redis、kafka 有深度使用经验的优先；-->
+<!--                5、有分布式系统分析、设计、开发、优化经验者优先。-->
+<!--                职能类别：Java开发工程师-->
+<!--            </p>-->
+<!--            <h5 class="myTitle">公司信息</h5>-->
+<!--            <p><span id="companyAttr" class="label label-info"></span></p>-->
+<!--            <p id="companyMsg" class="h5">-->
+<!--                亚信科技拥有员工11000余名，业务遍布全国30余省，通过对电信行业的积极探索与支撑，沉淀了深厚的技术实力，凭借对行业深刻的理解与项目管理能力形成了高性能、高专业化、高可靠的电信级软件产品及服务，持续满足客户日益复杂的业务需求，为客户创造新价值。-->
+<!--                亚信科技作为中国电信软件产品及相关服务市场的领军型企业， 形成了由AISWare Big Data，AISWare Billing、AISWare CRM等系列产品，并积极拓展中国非电信行业企业级软件产品及相关服务市场，在智慧社区、智慧零售、车联网、公共服务、智能运维等领域均有创新实践，与客户共同探索智慧运营新模式。-->
+<!--                亚信科技立足于服务运营商20余年的基础之上，持续加强自身的服务能力、产品能力、集成能力与运营能力，将对电信行业的深入理解与人工智能、机器学习、物联网、大数据等技术相结合，持续挖掘新客户、拓展新业务、开创新模式，成就电信运营商与行业客户的数字化转型，推动中国数字化浪潮的深入发展。-->
+<!--            </p>-->
+<!--            <h5 class="myTitle">联系方式</h5>-->
+<!--            <p id="companyArea" class="h5">上班地址：西二旗中关村软件园二期亚信大厦</p>-->
+<!--            <p>-->
+<!--                <button class="btn btn-success btn-xs" id="store">收藏职位</button>-->
+<!--            </p>-->
         </div>
         <div class="col-md-2" id="right">
             <a href="detail.html" class="hidden">
@@ -110,22 +111,36 @@
             url: "http://localhost:8080/jobitem/findById?id=" + jobId,
             success: function (res) {
                 console.log(res);
-                $("#jobId").text(res.data.jobId);
-                $("#jobName").text(res.data.jobName);
-                $("#jobAttr").text(res.data.jobAttr);
-                $("#jobWelf").text(res.data.jobWelf);
-                $("#jobMsg").text(res.data.jobMsg);
-                $("#companyName").text(res.data.companyName);
-                $("#companyAttr").text(res.data.companyAttr);
-                $("#companyMsg").text(res.data.companyMsg);
-                $("#companyArea").text(res.data.companyArea);
-                $("#min").text(res.data.salaryMin);
-                $("#max").text(res.data.salaryMax);
-                $("#jobHref").attr("href", res.data.jobHref);
+                var leftDiv = $("#left");
+                var detail = $(`<p>
+                                    <span class="label label-primary" id="jobName" style="font-size: 16px;">${res.data.jobName}</span>
+                                    <span style="display: none" class="label label-primary" id="jobId">${res.data.jobId}</span>
+                                    <a href="${res.data.jobHref}" class="btn btn-link" id="jobHref" target="_blank">去投递</a>
+                                </p>
+                                <p>
+                                    <span class="label label-danger" id="companyName" style="font-size: 14px;">${res.data.companyName}</span>
+                                    <span class="label label-danger"><span id="min">${res.data.salaryMin}</span> - <span id="max">${res.data.salaryMax}</span></span>
+                                </p>
+                                <p>
+                                    <span id="jobAttr" class="label label-success">${res.data.jobAttr}</span>
+                                </p>
+                                <p>
+                                    <span id="jobWelf" class="label label-warning">${res.data.jobWelf}</span>
+                                </p>
+                                <h5 class="myTitle">职位信息</h5>
+                                <p id="jobMsg" class="h5">${res.data.jobMsg}</p>
+                                <h5 class="myTitle">公司信息</h5>
+                                <p><span id="companyAttr" class="label label-info">${res.data.companyAttr}</span></p>
+                                <p id="companyMsg" class="h5">${res.data.companyMsg}</p>
+                                <h5 class="myTitle">联系方式</h5>
+                                <p id="companyArea" class="h5">${res.data.companyArea}</p>
+                                <p>
+                                    <button class="btn btn-success btn-xs" id="store">收藏职位</button>
+                                </p>`);
+                leftDiv.append(detail);
             }
         });
-        var storeBtn = $("#store");
-        storeBtn.click(function () {
+        $(document).on("click", "#store", function () {
             $.ajax({
                 type: "post",
                 url: "http://localhost:8080/store/add",
@@ -142,7 +157,7 @@
                     alert(res.data);
                 }
             })
-        })
+        });
     })
 </script>
 <script>
@@ -154,7 +169,7 @@
                 console.log(res);
                 var rightDiv = $("#right");
                 for (var i = 0 ; i < res.data.content.length; i++) {
-                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" style="text-decoration: none">
+                    var jobDiv = $(`<a href="/detail/${res.data.content[i].jobId}" target="_blank" style="text-decoration: none">
                                         <div class="panel panel-success">
                                             <div class="panel-body text-muted">
                                                 <h5>${res.data.content[i].jobName}</h5>

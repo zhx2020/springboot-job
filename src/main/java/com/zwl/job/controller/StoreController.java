@@ -31,6 +31,11 @@ public class StoreController {
         return storeService.findById(id);
     }
 
+    @RequestMapping("/findByIdWithPage")
+    public Result findByIdWithPage(String id, Integer page, Integer size) {
+        return storeService.findByIdWithPage(id, page, size);
+    }
+
     @RequestMapping("/del")
     public Result del(String userId, String jobId) {
         return storeService.del(userId, jobId);

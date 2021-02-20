@@ -16,8 +16,10 @@ public class StoreService {
         System.out.println(store);
         if (storeDao.selectByPrimaryKey(store) == null) {
             storeDao.insertSelective(store);
+            return new Result(true, "OK", "收藏成功");
+        } else {
+            return new Result(true, "OK", "已经收藏");
         }
-        return new Result(true, "OK", "收藏成功");
     }
 
     public Result findAll() {
@@ -25,9 +27,11 @@ public class StoreService {
     }
 
     public Result findById(String id) {
-        Store store = new Store();
-        store.setUserId(id);
-        return new Result(true, "OK", storeDao.select(store));
+        return new Result(true, "OK", storeDao.findAllByUserId(id));
+    }
+
+    public Result findByIdWithPage(String id, Integer page, Integer size) {
+        return new Result(true, "OK", storeDao.findAllByUserIdWithPage(id, (page - 1) * size, size));
     }
 
     public Result del(String userId, String jobId) {
