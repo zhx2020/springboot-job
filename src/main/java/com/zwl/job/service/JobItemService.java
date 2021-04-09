@@ -145,7 +145,7 @@ public class JobItemService {
     }
 
     public Result getJobAmount() {
-        String[] arr = {"java", "php", "c/c++", "python", "android", "ios", "web", "html5", "测试", "运维"};
+        String[] arr = {"java", "php", "c/c++", "python", "大数据", "android", "ios", "前端", "测试", "运维"};
         Long[] amount = new Long[arr.length];
         for (int i = 0; i < arr.length; i++) {
             amount[i] = getJobAmountByJobName(arr[i]);
@@ -171,7 +171,7 @@ public class JobItemService {
     }
 
     public Result getJobSalary() {
-        String[] arr = {"java", "php", "c/c++", "python", "android", "ios", "web", "html5", "测试", "运维"};
+        String[] arr = {"java", "php", "c/c++", "python", "大数据", "android", "ios", "前端", "测试", "运维"};
         int[] min = new int[arr.length];
         int[] max = new int[arr.length];
         for (int i = 0; i < arr.length; i++) {

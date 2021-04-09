@@ -33,11 +33,9 @@ public class JobProcessor2 implements PageProcessor {
             .setRetrySleepTime(3000)
             .setRetryTimes(3);
 
-    public static String url1 = "https://search.51job.com/list/000000,000000,0121%252c7201%252c7701%252c2707%252c7901,00,9,99,+,2,1.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=";
+    public static String url1 = "https://search.51job.com/list/000000,000000,0121%252c0120%252c0122%252c0124%252c0130,00,9,99,+,2,1.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=";
 
-    public static String url2 = "https://search.51job.com/list/000000,000000,0121%252C7201%252C7701%252C2707%252C7901,00,9,99,%2B,2,1.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=";
-
-    public static String url3 = "https://search.51job.com/list/000000,000000,0121%252c7201%252c7701%252c2707%252c7901,00,9,99,+,2,1.html?lang=c&postchannel=0000&workyear=99&cotype=05&degreefrom=05&jobterm=99&companysize=07&ord_field=0&dibiaoid=0&line=&welfare=";
+    public static String url2 = "https://search.51job.com/list/000000,000000,7701%252c7702%252c7201%252c2707%252c7901,00,9,99,+,2,1.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=";
 
     @Autowired
     private JobPipeline jobPipeline;

@@ -70,6 +70,11 @@ public class ESTest {
     }
 
     @Test
+    public void clear() {
+        jobItemRepository.deleteAll();
+    }
+
+    @Test
     public void put() {
         int page = 1;
         int num = 0;
