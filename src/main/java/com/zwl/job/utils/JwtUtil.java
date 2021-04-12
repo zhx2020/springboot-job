@@ -12,7 +12,7 @@ import java.util.Map;
 public class JwtUtil {
 
     //过期时间
-    private static final long EXPIRE_TIME = 12 * 4 * 15 * 60 * 1000;
+    private static final long EXPIRE_TIME = 4 * 15 * 60 * 1000;
     //私钥
     private static final String TOKEN_SECRET = "privateKey";
 
