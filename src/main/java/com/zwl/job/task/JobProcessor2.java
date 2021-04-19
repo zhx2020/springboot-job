@@ -193,7 +193,7 @@ public class JobProcessor2 implements PageProcessor {
     @Scheduled(initialDelay = 1000, fixedDelay = 24 * 60 * 60 * 1000)
     public void process(){
         Spider.create(new JobProcessor2())
-                .addUrl(url2)
+                .addUrl(url1, url2)
                 .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(10000000)))
                 .addPipeline(jobPipeline)
 //                .thread(5)
